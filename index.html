@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mexicali Builder - Diseño Inteligente para Clima Desértico</title>
+    <meta name="description" content="Herramienta de diseño arquitectónico con IA para construcción en clima desértico. Crea, analiza y optimiza tu casa de 200m² en Mexicali.">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Three.js para editor 3D -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/export/OBJExporter.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/export/GLTFExporter.js"></script>
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- Estilos personalizados -->
+    <link rel="stylesheet" href="css/styles.css">
+    
+    <!-- Configuración de Tailwind -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        desert: {
+                            50: '#f9f7f2', 100: '#efece6', 200: '#e0dcd3',
+                            300: '#d1cbbf', 400: '#c3b9ab', 500: '#a69076',
+                            600: '#947e62', 700: '#826c51', 800: '#7a3e2a', 900: '#5c2d1e',
+                        },
+                        sand: { 50: '#fdf6e3', 100: '#f9e8c9', 200: '#f3d9a1', 300: '#e8be76', 400: '#d69e4f', 500: '#c17838', }
+                    },
+                    fontFamily: { sans: ['Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'sans-serif'] },
+                    animation: { 'fade-in': 'fadeIn 0.5s ease-out', 'slide-up': 'slideUp 0.5s ease-out' },
+                    keyframes: {
+                        fadeIn: { '0%': { opacity: '0', transform: 'translateY(10px)' }, '100%': { opacity: '1', transform: 'translateY(0)' } },
+                        slideUp: { '0%': { opacity: '0', transform: 'translateY(20px)' }, '100%': { opacity: '1', transform: 'translateY(0)' } }
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        .gemini-gradient { background: linear-gradient(135deg, #7a3e2a 0%, #a69076 100%); }
+        .desert-gradient { background: linear-gradient(135deg, #5c2d1e 0%, #7a3e2a 50%, #a69076 100%); }
+        .sunburst { position: relative; overflow: hidden; }
+        .sunburst::before { content: ''; position: absolute; top: 50%; left: 50%; width: 200%; height: 200%; background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%); transform: translate(-50%, -50%); pointer-events: none; }
+        .loading-spinner { width: 40px; height: 40px; border: 4px solid #f3f3f3; border-top: 4px solid #7a3e2a; border-radius: 50%; animation: spin 1s linear infinite; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        .section-divider { height: 1px; background: linear-gradient(90deg, transparent, #a69076, transparent); margin: 4rem 0; }
+        #editor-container { width: 100%; height: 60vh; min-height: 500px; background: #f0f0f0; border-radius: 12px; overflow: hidden; position: relative; }
+        #editor-container canvas { display: block; }
+        .toolbar-3d button { padding: 8px 12px; border: none; background: #f5f5f5; border-radius: 6px; cursor: pointer; transition: all 0.2s; font-size: 14px; }
+        .toolbar-3d button:hover { background: #e0e0e0; }
+        .toolbar-3d button.active { background: #7a3e2a; color: white; }
+    </style>
+</head>
+<body class="bg-desert-50 text-slate-800">
+    
+    <!-- Navbar -->
+    <nav class="bg-white shadow-md sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 bg-desert-800 rounded-full flex items-center justify-center shadow-lg">
+                    <i class="fa-solid fa-sun text-white text-xl"></i>
+                </div>
+                <div>
+                    <h1 class="text-xl font-bold text-desert-900">Mexicali<span class="text-desert-500">Builder</span></h1>
+                    <p class="text-xs text-desert-500 -mt-1">Diseño Inteligente para Clima Desértico</p>
+                </div>
+            </div>
+            <div class="hidden md:flex items-center gap-6">
+                <a href="#features" class="text-sm font-medium text-slate-600 hover:text-desert-800 transition">Características</a>
+                <a href="#ai-lab" class="text-sm font-medium text-slate-600 hover:text-desert-800 transition">Laboratorio IA</a>
+                <a href="#3d-editor" class="text-sm font-medium text-slate-600 hover:text-desert-800 transition">Editor 3D</a>
+                <a href="#directory" class="text-sm font-medium text-desert-800 border-b-2 border-desert-500 pb-1">Directorio</a>
+            </div>
+            <button class="md:hidden text-desert-800" onclick="toggleMobileMenu()">
+                <i class="fa-solid fa-bars text-xl"></i>
+            </button>
+        </div>
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-desert-100 px-4 py-3">
+            <a href="#features" class="block py-2 text-sm text-slate-600">Características</a>
+            <a href="#ai-lab" class="block py-2 text-sm text-slate-600">Laboratorio IA</a>
+            <a href="#3d-editor" class="block py-2 text-sm text-slate-600">Editor 3D</a>
+            <a href="#directory" class="block py-2 text-sm text-desert-800 font-medium">Directorio</a>
+        </div>
+    </nav>
+
+    <!-- Header -->
+    <header class="desert-gradient text-white py-20 px-4 relative overflow-hidden">
+        <div class="absolute inset-0 bg-black/20"></div>
+        <div class="max-w-4xl mx-auto text-center relative z-10">
+            <div class="sunburst mb-6"><i class="fa-solid fa-sun text-6xl text-yellow-400"></i></div>
+            <h1 class="text-4xl md:text-6xl font-bold mb-6 text-balance">Construye tu Oasis en el Desierto</h1>
+            <p class="text-xl md:text-2xl text-desert-100 mb-8 font-light leading-relaxed">
+                Herramienta de diseño arquitectónico con inteligencia artificial especializada en clima desértico. 
+                Crea, analiza y optimiza tu casa de 200m² en Mexicali.
+            </p>
+            <div class="flex flex-wrap justify-center gap-4">
+                <a href="#3d-editor" class="bg-white text-desert-800 font-bold py-3 px-8 rounded-full shadow-lg hover:bg-desert-100 transition">
+                    <i class="fa-solid fa-cube"></i> Editor 3D
+                </a>
+                <a href="#ai-lab" class="bg-desert-800/80 text-white font-bold py-3 px-8 rounded-full shadow-lg hover:bg-desert-800 transition">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i> Consultar IA
+                </a>
+            </div>
+        </div>
+        <div class="absolute bottom-0 left-0 w-full h-24" style="background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none"><path d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z" opacity=".25" fill="%23ffffff"></path><path d="M0,0V15.81C13,36.92,27.64,56.86,47.69,72.05,99.41,111.27,165,111,224.58,91.58c31.15-10.15,60.09-26.07,89.67-39.8,40.92-19,84.73-46,130.83-49.67,36.26-2.85,70.9,9.42,98.6,31.56,31.77,25.39,62.32,62,103.63,73,40.44,10.79,81.35-6.69,119.13-24.28s75.16-39,116.92-43.05c59.73-5.85,113.28,22.88,168.9,38.84,30.2,8.66,59,6.17,87.09-7.5,22.43-10.89,48-26.93,60.65-49.24V0Z" opacity=".5" fill="%23ffffff"></path><path d="M0,0V5.63C149.93,59,314.09,71.32,475.83,42.57c43-7.64,84.23-20.12,127.61-26.46,59-8.63,112.48,12.24,165.56,35.4C827.93,77.22,886,95.24,951.2,90c86.53-7,172.46-45.71,248.8-84.81V0Z" fill="%23ffffff"></path></svg>') no-repeat bottom; background-size: cover;"></div>
+    </header>
+
+    <!-- Sección de Características -->
+    <section id="features" class="py-16 px-4">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-12">
+                <span class="inline-block bg-desert-100 text-desert-800 px-4 py-2 rounded-full text-sm font-medium mb-4">
+                    <i class="fa-solid fa-star mr-1"></i> Características
+                </span>
+                <h2 class="text-3xl md:text-4xl font-bold text-desert-900 mb-4">Diseño Inteligente para el Desierto</h2>
+                <p class="text-lg text-slate-600 max-w-3xl mx-auto">
+                    Nuestra plataforma combina tecnología con conocimiento especializado en construcción para clima desértico.
+                </p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="bg-white p-6 rounded-2xl shadow-lg border border-desert-100">
+                    <div class="w-12 h-12 bg-desert-100 rounded-xl flex items-center justify-center mb-4">
+                        <i class="fa-solid fa-wand-magic-sparkles text-desert-800 text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-desert-900 mb-2">Asistente de IA</h3>
+                    <p class="text-slate-600 text-sm mb-4">Analiza planos, sugiere materiales y optimiza diseños usando IA especializada.</p>
+                    <div class="flex gap-2"><span class="badge badge-primary"><i class="fa-solid fa-brain"></i> LLM</span><span class="badge badge-primary"><i class="fa-solid fa-image"></i> Visión</span></div>
+                </div>
+                <div class="bg-white p-6 rounded-2xl shadow-lg border border-desert-100">
+                    <div class="w-12 h-12 bg-desert-100 rounded-xl flex items-center justify-center mb-4">
+                        <i class="fa-solid fa-cube text-desert-800 text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-desert-900 mb-2">Editor 3D</h3>
+                    <p class="text-slate-600 text-sm mb-4">Diseña en 3D con herramientas intuitivas. Exporta en múltiples formatos.</p>
+                    <div class="flex gap-2"><span class="badge badge-success"><i class="fa-solid fa-mouse-pointer"></i> Arrastre</span><span class="badge badge-success"><i class="fa-solid fa-save"></i> Export</span></div>
+                </div>
+                <div class="bg-white p-6 rounded-2xl shadow-lg border border-desert-100">
+                    <div class="w-12 h-12 bg-desert-100 rounded-xl flex items-center justify-center mb-4">
+                        <i class="fa-solid fa-chart-line text-desert-800 text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-desert-900 mb-2">Análisis Térmico</h3>
+                    <p class="text-slate-600 text-sm mb-4">Calcula eficiencia energética y recomienda soluciones para clima cálido.</p>
+                    <div class="flex gap-2"><span class="badge badge-warning"><i class="fa-solid fa-thermometer-half"></i> Térmico</span><span class="badge badge-warning"><i class="fa-solid fa-calculator"></i> Cálculos</span></div>
+                </div>
+                <div class="bg-white p-6 rounded-2xl shadow-lg border border-desert-100">
+                    <div class="w-12 h-12 bg-desert-100 rounded-xl flex items-center justify-center mb-4">
+                        <i class="fa-solid fa-leaf text-desert-800 text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-desert-900 mb-2">Flora Nativa</h3>
+                    <p class="text-slate-600 text-sm mb-4">Base de datos de plantas resistentes a la sequía para jardines sostenibles.</p>
+                    <div class="flex gap-2"><span class="badge badge-success"><i class="fa-solid fa-seedling"></i> Plantas</span><span class="badge badge-success"><i class="fa-solid fa-tint"></i> Ahorro</span></div>
+                </div>
+                <div class="bg-white p-6 rounded-2xl shadow-lg border border-desert-100">
+                    <div class="w-12 h-12 bg-desert-100 rounded-xl flex items-center justify-center mb-4">
+                        <i class="fa-solid fa-dollar-sign text-desert-800 text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-desert-900 mb-2">Presupuestos</h3>
+                    <p class="text-slate-600 text-sm mb-4">Genera estimaciones de costos detalladas con materiales locales.</p>
+                    <div class="flex gap-2"><span class="badge badge-warning"><i class="fa-solid fa-file-invoice-dollar"></i> Costos</span><span class="badge badge-warning"><i class="fa-solid fa-chart-pie"></i> Desglose</span></div>
+                </div>
+                <div class="bg-white p-6 rounded-2xl shadow-lg border border-desert-100">
+                    <div class="w-12 h-12 bg-desert-100 rounded-xl flex items-center justify-center mb-4">
+                        <i class="fa-solid fa-file-export text-desert-800 text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-desert-900 mb-2">Exportación</h3>
+                    <p class="text-slate-600 text-sm mb-4">Exporta en JSON, SVG, PNG, OBJ y GLTF. Comparte fácilmente con profesionales.</p>
+                    <div class="flex gap-2"><span class="badge badge-primary"><i class="fa-solid fa-file-code"></i> JSON</span><span class="badge badge-primary"><i class="fa-solid fa-image"></i> PNG</span></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- Sección Laboratorio IA -->
+    <section id="ai-lab" class="py-16 px-4">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-12">
+                <span class="inline-block bg-desert-100 text-desert-800 px-4 py-2 rounded-full text-sm font-medium mb-4">
+                    <i class="fa-solid fa-flask mr-1"></i> Laboratorio de IA
+                </span>
+                <h2 class="text-3xl md:text-4xl font-bold text-desert-900 mb-4">Análisis Inteligente para Arquitectura Desértica</h2>
+                <p class="text-lg text-slate-600 max-w-3xl mx-auto">
+                    Utiliza IA para analizar planos, calcular eficiencias y obtener recomendaciones para tu proyecto en Mexicali.
+                </p>
+            </div>
+            
+            <div class="bg-white rounded-3xl shadow-2xl overflow-hidden border border-desert-200">
+                <div class="gemini-gradient p-6 text-white flex items-center justify-between">
+                    <div class="flex items-center gap-3">
+                        <i class="fa-solid fa-wand-magic-sparkles text-3xl"></i>
+                        <div>
+                            <h2 class="text-2xl font-bold">Laboratorio de Diseño Inteligente</h2>
+                            <p class="text-desert-100 text-sm opacity-90">Análisis multimodal para arquitectura desértica</p>
+                        </div>
+                    </div>
+                    <button onclick="toggleAILab()" class="bg-white/20 hover:bg-white/30 p-2 rounded-lg transition">
+                        <i class="fa-solid fa-chevron-down"></i>
+                    </button>
+                </div>
+                
+                <div id="ai-lab-content" class="p-6">
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                        <!-- Chat -->
+                        <div class="lg:col-span-2 bg-desert-50/30 rounded-2xl p-6 flex flex-col">
+                            <div class="flex justify-between items-center mb-4">
+                                <h3 class="font-bold text-desert-800 flex items-center gap-2"><i class="fa-solid fa-comments"></i> Consultoría Técnica ✨</h3>
+                                <label class="cursor-pointer bg-desert-200 text-desert-800 px-3 py-1 rounded-full text-xs font-bold hover:bg-desert-300 transition">
+                                    <i class="fa-solid fa-camera mr-1"></i> Analizar Plano
+                                    <input type="file" id="image-input" class="hidden" accept="image/*" onchange="handleImageUpload(event)">
+                                </label>
+                            </div>
+                            <div id="chat-messages" class="flex-1 overflow-y-auto mb-4 space-y-3 pr-2 scrollbar-thin text-sm">
+                                <div class="bg-white p-3 rounded-2xl rounded-tl-none shadow-sm border border-desert-100">
+                                    <strong>Ingeniero AI:</strong> Hola. Soy tu asistente especializado en arquitectura para clima desértico. 
+                                    Puedo analizar fotos de planos, responder preguntas técnicas y darte recomendaciones para construir en Mexicali.
+                                </div>
+                            </div>
+                            <div id="image-preview-container" class="hidden mb-4 relative">
+                                <img id="image-preview" src="" class="h-32 rounded-lg border-2 border-desert-500 shadow-md w-full object-cover">
+                                <button onclick="clearImage()" class="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1.5 text-xs"><i class="fa-solid fa-xmark"></i></button>
+                            </div>
+                            <div class="relative">
+                                <input type="text" id="ai-input" placeholder="Pregunta algo o describe tu plano..." 
+                                       class="w-full pl-4 pr-12 py-3 rounded-xl border border-desert-200 focus:ring-2 focus:ring-desert-500 outline-none">
+                                <button onclick="askAI()" class="absolute right-2 top-1.5 bg-desert-800 text-white p-2 rounded-lg hover:bg-desert-600 transition">
+                                    <i class="fa-solid fa-paper-plane"></i>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- Herramientas -->
+                        <div class="p-6 space-y-6 bg-white overflow-y-auto max-h-[600px] scrollbar-thin rounded-2xl">
+                            <div class="bg-desert-50/50 rounded-xl p-4">
+                                <h3 class="font-bold text-slate-800 mb-3 text-xs uppercase tracking-widest">Ahorro Energético ✨</h3>
+                                <select id="material-select" class="w-full p-2 mb-3 rounded-lg border border-desert-100 text-sm outline-none focus:border-desert-500">
+                                    <option value="Hebel vs Block">Hebel vs Block Común</option>
+                                    <option value="XPS vs Techo">XPS 2" vs Techo Limpio</option>
+                                    <option value="Vidrio Doble">Vidrio Doble vs Sencillo</option>
+                                </select>
+                                <button onclick="compareMaterials()" class="w-full py-2 bg-desert-800 text-white rounded-lg text-sm font-bold hover:bg-desert-900 transition">
+                                    Calcular ✨
+                                </button>
+                                <div id="material-res" class="mt-4 hidden"></div>
+                            </div>
+                            
+                            <div class="bg-desert-50/50 rounded-xl p-4">
+                                <h3 class="font-bold text-slate-800 mb-3 text-xs uppercase tracking-widest">Flora Nativa ✨</h3>
+                                <button onclick="suggestPlants()" class="w-full py-2 bg-green-50 text-green-800 border border-green-200 rounded-lg text-sm font-bold hover:bg-green-100 transition">
+                                    Sugerir Plantas ✨
+                                </button>
+                                <div id="plant-res" class="mt-3 space-y-2"></div>
+                            </div>
+                            
+                            <div class="bg-desert-50/50 rounded-xl p-4">
+                                <h3 class="font-bold text-slate-800 mb-3 text-xs uppercase tracking-widest">Análisis Terreno ✨</h3>
+                                <button onclick="analyzeTerrain()" class="w-full py-2 bg-amber-50 text-amber-800 border border-amber-200 rounded-lg text-sm font-bold hover:bg-amber-100 transition">
+                                    Analizar Terreno ✨
+                                </button>
+                                <div id="terrain-res" class="mt-3 space-y-2 hidden"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- Sección Editor 3D -->
+    <section id="3d-editor" class="py-16 px-4">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-12">
+                <span class="inline-block bg-desert-100 text-desert-800 px-4 py-2 rounded-full text-sm font-medium mb-4">
+                    <i class="fa-solid fa-cube mr-1"></i> Editor 3D
+                </span>
+                <h2 class="text-3xl md:text-4xl font-bold text-desert-900 mb-4">Diseña tu Casa en 3D</h2>
+                <p class="text-lg text-slate-600 max-w-3xl mx-auto">
+                    Crea y personaliza tu diseño arquitectónico directamente en el navegador. 
+                    Herramientas profesionales, exportación fácil y compatibilidad con múltiples formatos.
+                </p>
+            </div>
+            
+            <div class="bg-white rounded-3xl shadow-2xl overflow-hidden border border-desert-200">
+                <div class="gemini-gradient p-6 text-white flex items-center justify-between">
+                    <div class="flex items-center gap-3">
+                        <i class="fa-solid fa-cube text-3xl"></i>
+                        <div>
+                            <h2 class="text-2xl font-bold">Editor 3D de Viviendas</h2>
+                            <p class="text-desert-100 text-sm opacity-90">Diseño profesional para 200m² en clima desértico</p>
+                        </div>
+                    </div>
+                    <a href="pages/3d-editor-full.html" class="bg-white/20 hover:bg-white/30 p-2 rounded-lg transition">
+                        <i class="fa-solid fa-expand"></i> Pantalla Completa
+                    </a>
+                </div>
+                
+                <div class="p-6">
+                    <div id="editor-container"></div>
+                    
+                    <div class="mt-6 bg-desert-50/50 rounded-xl p-4">
+                        <h3 class="font-bold text-desert-800 mb-2"><i class="fa-solid fa-lightbulb"></i> Instrucciones</h3>
+                        <div class="grid grid-cols-2 md:grid-cols-3 gap-3 text-sm">
+                            <div class="flex items-start gap-2"><i class="fa-solid fa-mouse-pointer text-desert-600 mt-1"></i><div><strong>Seleccionar:</strong> Haz clic en elementos.</div></div>
+                            <div class="flex items-start gap-2"><i class="fa-solid fa-ruler-combined text-desert-600 mt-1"></i><div><strong>Dibujar:</strong> Selecciona herramienta y haz clic.</div></div>
+                            <div class="flex items-start gap-2"><i class="fa-solid fa-trash text-desert-600 mt-1"></i><div><strong>Eliminar:</strong> Selecciona y presiona Supr.</div></div>
+                            <div class="flex items-start gap-2"><i class="fa-solid fa-undo text-desert-600 mt-1"></i><div><strong>Deshacer:</strong> Ctrl+Z / Ctrl+Y.</div></div>
+                            <div class="flex items-start gap-2"><i class="fa-solid fa-copy text-desert-600 mt-1"></i><div><strong>Exportar:</strong> Copia en JSON, SVG o PNG.</div></div>
+                            <div class="flex items-start gap-2"><i class="fa-solid fa-th text-desert-600 mt-1"></i><div><strong>Cuadrícula:</strong> Presiona G para activar.</div></div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-6 bg-desert-50/50 rounded-xl p-4">
+                        <h3 class="font-bold text-desert-800 mb-2"><i class="fa-solid fa-book"></i> Biblioteca Rápida</h3>
+                        <div class="flex flex-wrap gap-2">
+                            <button onclick="Editor3D.startDrawing('wall','standard')" class="px-3 py-2 bg-desert-200 text-desert-800 rounded-lg text-sm hover:bg-desert-300"><i class="fa-solid fa-ruler-combined"></i> Pared</button>
+                            <button onclick="Editor3D.startDrawing('door','single')" class="px-3 py-2 bg-desert-200 text-desert-800 rounded-lg text-sm hover:bg-desert-300"><i class="fa-solid fa-door-open"></i> Puerta</button>
+                            <button onclick="Editor3D.startDrawing('window','standard')" class="px-3 py-2 bg-desert-200 text-desert-800 rounded-lg text-sm hover:bg-desert-300"><i class="fa-solid fa-window-maximize"></i> Ventana</button>
+                            <button onclick="Editor3D.startDrawing('furniture','sofa')" class="px-3 py-2 bg-desert-200 text-desert-800 rounded-lg text-sm hover:bg-desert-300"><i class="fa-solid fa-couch"></i> Sofá</button>
+                            <button onclick="Editor3D.startDrawing('furniture','chair')" class="px-3 py-2 bg-desert-200 text-desert-800 rounded-lg text-sm hover:bg-desert-300"><i class="fa-solid fa-chair"></i> Silla</button>
+                            <button onclick="Editor3D.startDrawing('furniture','table')" class="px-3 py-2 bg-desert-200 text-desert-800 rounded-lg text-sm hover:bg-desert-300"><i class="fa-solid fa-table"></i> Mesa</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- Sección Directorio -->
+    <section id="directory" class="py-16 px-4">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-12">
+                <span class="inline-block bg-desert-100 text-desert-800 px-4 py-2 rounded-full text-sm font-medium mb-4">
+                    <i class="fa-solid fa-folder-open mr-1"></i> Directorio
+                </span>
+                <h2 class="text-3xl md:text-4xl font-bold text-desert-900 mb-4">Recursos y Guías</h2>
+                <p class="text-lg text-slate-600 max-w-3xl mx-auto">
+                    Accede a nuestra colección de guías, plantillas y recursos para construcción en clima desértico.
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="bg-white p-6 rounded-2xl shadow-lg border border-desert-100">
+                    <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mb-4">
+                        <i class="fa-solid fa-file-lines text-blue-600 text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-desert-900 mb-2">Plantillas de Diseño</h3>
+                    <p class="text-slate-600 text-sm mb-4">Plantillas predefinidas para casas de 200m² optimizadas para clima desértico.</p>
+                    <button class="btn btn-outline text-sm" onclick="loadTemplate('oasis-200')"><i class="fa-solid fa-download"></i> Cargar Oasis 200</button>
+                </div>
+                <div class="bg-white p-6 rounded-2xl shadow-lg border border-desert-100">
+                    <div class="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center mb-4">
+                        <i class="fa-solid fa-book text-green-600 text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-desert-900 mb-2">Guía de Materiales</h3>
+                    <p class="text-slate-600 text-sm mb-4">Guía completa de materiales para clima desértico con comparativas de costos y eficiencia.</p>
+                    <button class="btn btn-outline text-sm" onclick="showMaterialsGuide()"><i class="fa-solid fa-eye"></i> Ver Guía</button>
+                </div>
+                <div class="bg-white p-6 rounded-2xl shadow-lg border border-desert-100">
+                    <div class="w-12 h-12 bg-red-100 rounded-xl flex items-center justify-center mb-4">
+                        <i class="fa-solid fa-gavel text-red-600 text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-desert-900 mb-2">Normativas Locales</h3>
+                    <p class="text-slate-600 text-sm mb-4">Información sobre normativas de construcción en Mexicali y requisitos legales.</p>
+                    <button class="btn btn-outline text-sm" onclick="showRegulations()"><i class="fa-solid fa-file-contract"></i> Ver Normativas</button>
+                </div>
+                <div class="bg-white p-6 rounded-2xl shadow-lg border border-desert-100">
+                    <div class="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center mb-4">
+                        <i class="fa-solid fa-truck text-purple-600 text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-desert-900 mb-2">Proveedores Locales</h3>
+                    <p class="text-slate-600 text-sm mb-4">Directorio de proveedores de materiales de construcción en Mexicali.</p>
+                    <button class="btn btn-outline text-sm" onclick="showSuppliers()"><i class="fa-solid fa-address-book"></i> Ver Proveedores</button>
+                </div>
+                <div class="bg-white p-6 rounded-2xl shadow-lg border border-desert-100">
+                    <div class="w-12 h-12 bg-amber-100 rounded-xl flex items-center justify-center mb-4">
+                        <i class="fa-solid fa-calculator text-amber-600 text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-desert-900 mb-2">Calculadoras</h3>
+                    <p class="text-slate-600 text-sm mb-4">Herramientas de cálculo para materiales, costos y eficiencia energética.</p>
+                    <button class="btn btn-outline text-sm" onclick="showCalculators()"><i class="fa-solid fa-plus"></i> Abrir Calculadoras</button>
+                </div>
+                <div class="bg-white p-6 rounded-2xl shadow-lg border border-desert-100">
+                    <div class="w-12 h-12 bg-orange-100 rounded-xl flex items-center justify-center mb-4">
+                        <i class="fa-solid fa-question-circle text-orange-600 text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-desert-900 mb-2">Preguntas Frecuentes</h3>
+                    <p class="text-slate-600 text-sm mb-4">Respuestas a preguntas comunes sobre construcción en clima desértico.</p>
+                    <button class="btn btn-outline text-sm" onclick="showFAQ()"><i class="fa-solid fa-question"></i> Ver FAQ</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-desert-900 text-white py-12 px-4">
+        <div class="max-w-6xl mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+                <div>
+                    <div class="flex items-center gap-2 mb-4"><i class="fa-solid fa-sun text-2xl"></i><span class="text-xl font-bold">Mexicali<span class="text-desert-500">Builder</span></span></div>
+                    <p class="text-desert-300 text-sm">Herramienta de diseño arquitectónico con IA para construcción en clima desértico.</p>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-4">Navegación</h4>
+                    <ul class="space-y-2 text-sm text-desert-300">
+                        <li><a href="#features" class="hover:text-white transition">Características</a></li>
+                        <li><a href="#ai-lab" class="hover:text-white transition">Laboratorio IA</a></li>
+                        <li><a href="#3d-editor" class="hover:text-white transition">Editor 3D</a></li>
+                        <li><a href="#directory" class="hover:text-white transition">Directorio</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-4">Recursos</h4>
+                    <ul class="space-y-2 text-sm text-desert-300">
+                        <li><a href="#" class="hover:text-white transition">Documentación</a></li>
+                        <li><a href="#" class="hover:text-white transition">Tutoriales</a></li>
+                        <li><a href="#" class="hover:text-white transition">API Reference</a></li>
+                        <li><a href="#" class="hover:text-white transition">Soporte</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-4">Legal</h4>
+                    <ul class="space-y-2 text-sm text-desert-300">
+                        <li><a href="#" class="hover:text-white transition">Términos</a></li>
+                        <li><a href="#" class="hover:text-white transition">Privacidad</a></li>
+                        <li><a href="#" class="hover:text-white transition">Licencia</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-desert-800 pt-8 flex flex-col md:flex-row justify-between items-center">
+                <p class="text-desert-400 text-sm">© 2024 MexicaliBuilder. Todos los derechos reservados.</p>
+                <div class="flex gap-4 mt-4 md:mt-0">
+                    <a href="#" class="text-desert-400 hover:text-white transition"><i class="fa-brands fa-github text-xl"></i></a>
+                    <a href="#" class="text-desert-400 hover:text-white transition"><i class="fa-brands fa-twitter text-xl"></i></a>
+                    <a href="#" class="text-desert-400 hover:text-white transition"><i class="fa-brands fa-linkedin text-xl"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Modal para Narrativa -->
+    <div id="story-modal" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-[100] hidden items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-2xl w-full p-8 shadow-2xl relative overflow-hidden">
+            <div class="absolute top-0 left-0 w-full h-2 gemini-gradient"></div>
+            <button onclick="closeModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-800"><i class="fa-solid fa-xmark text-xl"></i></button>
+            <h2 class="text-2xl font-bold text-desert-800 mb-2 flex items-center gap-2">Memoria Descriptiva <span id="audio-indicator" class="text-blue-500 text-sm hidden animate-pulse"><i class="fa-solid fa-waveform"></i> Escuchando...</span></h2>
+            <div id="story-content" class="text-slate-700 leading-relaxed italic whitespace-pre-line text-sm max-h-[400px] overflow-y-auto pr-2 scrollbar-thin"></div>
+            <div class="mt-8 flex justify-between items-center">
+                <button id="stop-audio" onclick="stopAudio()" class="hidden text-red-500 font-bold text-sm hover:underline">Detener</button>
+                <button onclick="closeModal()" class="bg-desert-800 text-white px-8 py-2 rounded-xl font-bold shadow-lg hover:bg-desert-900 transition">Cerrar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/ai-capabilities.js"></script>
+    <script src="js/3d-editor-core.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>

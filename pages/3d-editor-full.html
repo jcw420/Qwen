@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editor 3D - Mexicali Builder</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Three.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/export/OBJExporter.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/export/GLTFExporter.js"></script>
+    
+    <!-- Estilos -->
+    <link rel="stylesheet" href="../css/styles.css">
+    
+    <style>
+        body { 
+            background: #f0f0f0; 
+            font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+        }
+        #editor-container {
+            width: 100%;
+            height: calc(100vh - 60px);
+            background: #e0e0e0;
+        }
+        #editor-container canvas {
+            display: block;
+        }
+        .toolbar-3d {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            padding: 8px;
+            display: flex;
+            gap: 4px;
+            flex-wrap: wrap;
+            margin-bottom: 10px;
+        }
+        .toolbar-3d button {
+            padding: 8px 12px;
+            border: none;
+            background: #f5f5f5;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 14px;
+        }
+        .toolbar-3d button:hover {
+            background: #e0e0e0;
+        }
+        .toolbar-3d button.active {
+            background: #7a3e2a;
+            color: white;
+        }
+        .properties-panel, .sidebar-3d {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            padding: 10px;
+        }
+        .loading-spinner {
+            width: 20px;
+            height: 20px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #7a3e2a;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="bg-white shadow-md p-4 flex justify-between items-center">
+        <div class="flex items-center gap-3">
+            <i class="fa-solid fa-sun text-desert-800 text-xl"></i>
+            <span class="font-bold text-desert-900">MexicaliBuilder - Editor 3D</span>
+        </div>
+        <div class="flex gap-2">
+            <button onclick="saveDesign()" class="bg-desert-800 text-white px-4 py-2 rounded-lg text-sm hover:bg-desert-900 transition">
+                <i class="fa-solid fa-save"></i> Guardar
+            </button>
+            <button onclick="exportDesign()" class="bg-desert-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-desert-700 transition">
+                <i class="fa-solid fa-file-export"></i> Exportar
+            </button>
+            <button onclick="closeFullscreen()" class="bg-slate-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-slate-700 transition">
+                <i class="fa-solid fa-times"></i> Cerrar
+            </button>
+        </div>
+    </header>
+    
+    <!-- Contenedor Principal -->
+    <div class="p-4">
+        <!-- Toolbar -->
+        <div class="toolbar-3d">
+            <button onclick="Editor3D.state.mode='select'; updateUI()" data-mode="select" class="active">
+                <i class="fa-solid fa-mouse-pointer"></i>
+            </button>
+            <button onclick="Editor3D.startDrawing('wall','standard')" data-mode="draw-wall">
+                <i class="fa-solid fa-ruler-combined"></i>
+            </button>
+            <button onclick="Editor3D.startDrawing('door','single')" data-mode="draw-door">
+                <i class="fa-solid fa-door-open"></i>
+            </button>
+            <button onclick="Editor3D.startDrawing('window','standard')" data-mode="draw-window">
+                <i class="fa-solid fa-window-maximize"></i>
+            </button>
+            <button onclick="Editor3D.startDrawing('furniture','sofa')" data-mode="draw-furniture">
+                <i class="fa-solid fa-couch"></i>
+            </button>
+            
+            <div style="width: 1px; height: 24px; background: #ccc; margin: 0 4px;"></div>
+            
+            <button onclick="Editor3D.undo()" title="Deshacer (Ctrl+Z)">
+                <i class="fa-solid fa-undo"></i>
+            </button>
+            <button onclick="Editor3D.redo()" title="Rehacer (Ctrl+Y)">
+                <i class="fa-solid fa-redo"></i>
+            </button>
+            <button onclick="Editor3D.clearScene()" title="Limpiar">
+                <i class="fa-solid fa-trash"></i>
+            </button>
+            
+            <div style="width: 1px; height: 24px; background: #ccc; margin: 0 4px;"></div>
+            
+            <button onclick="Editor3D.changeView('3d')" data-view="3d" class="active">
+                <i class="fa-solid fa-cube"></i>
+            </button>
+            <button onclick="Editor3D.changeView('top')" data-view="top">
+                <i class="fa-solid fa-arrows-alt-v"></i>
+            </button>
+            <button onclick="Editor3D.changeView('front')" data-view="front">
+                <i class="fa-solid fa-arrows-alt-h"></i>
+            </button>
+            <button onclick="Editor3D.changeView('side')" data-view="side">
+                <i class="fa-solid fa-arrows-alt-v" style="transform: rotate(90deg);"></i>
+            </button>
+            
+            <div style="width: 1px; height: 24px; background: #ccc; margin: 0 4px;"></div>
+            
+            <button onclick="Editor3D.snapToGrid=!Editor3D.snapToGrid; updateGridUI()" id="grid-btn" data-action="grid" class="active">
+                <i class="fa-solid fa-th"></i>
+            </button>
+            
+            <div style="width: 1px; height: 24px; background: #ccc; margin: 0 4px;"></div>
+            
+            <button onclick="copyToClipboard('json')" title="Copiar JSON">
+                <i class="fa-solid fa-copy"></i>
+            </button>
+            <button onclick="copyToClipboard('svg')" title="Copiar SVG">
+                <i class="fa-solid fa-file-code"></i>
+            </button>
+            <button onclick="downloadPNG()" title="Descargar PNG">
+                <i class="fa-solid fa-file-image"></i>
+            </button>
+        </div>
+        
+        <!-- Contenedor del Editor -->
+        <div id="editor-container"></div>
+        
+        <!-- Panel de Propiedades -->
+        <div id="properties-panel" style="position: absolute; right: 10px; top: 10px; width: 250px; display: none; z-index: 100;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                <h4 style="margin: 0; font-size: 14px; font-weight: 600;">Propiedades</h4>
+                <button onclick="closePropertiesPanel()" style="background: none; border: none; cursor: pointer; font-size: 16px;">
+                    <i class="fa-solid fa-times"></i>
+                </button>
+            </div>
+            <div id="properties-content"></div>
+        </div>
+        
+        <!-- Sidebar -->
+        <div id="sidebar-3d" style="position: absolute; left: 10px; top: 50px; width: 200px; z-index: 100;">
+            <div style="background: white; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); padding: 10px; margin-bottom: 10px;">
+                <h4 style="margin: 0 0 10px 0; font-size: 12px; font-weight: 600; color: #666; text-transform: uppercase;">Biblioteca</h4>
+                <div style="display: flex; flex-direction: column; gap: 4px;">
+                    <button onclick="showElementCategory('walls')" style="padding: 6px; border: none; background: #f5f5f5; border-radius: 4px; cursor: pointer; font-size: 12px; text-align: left;">
+                        <i class="fa-solid fa-ruler-combined"></i> Paredes
+                    </button>
+                    <button onclick="showElementCategory('doors')" style="padding: 6px; border: none; background: #f5f5f5; border-radius: 4px; cursor: pointer; font-size: 12px; text-align: left;">
+                        <i class="fa-solid fa-door-open"></i> Puertas
+                    </button>
+                    <button onclick="showElementCategory('windows')" style="padding: 6px; border: none; background: #f5f5f5; border-radius: 4px; cursor: pointer; font-size: 12px; text-align: left;">
+                        <i class="fa-solid fa-window-maximize"></i> Ventanas
+                    </button>
+                    <button onclick="showElementCategory('furniture')" style="padding: 6px; border: none; background: #f5f5f5; border-radius: 4px; cursor: pointer; font-size: 12px; text-align: left;">
+                        <i class="fa-solid fa-chair"></i> Muebles
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Scripts -->
+    <script src="../js/3d-editor-core.js"></script>
+    <script>
+        // Inicializar editor
+        Editor3D.init('editor-container');
+        
+        // Actualizar UI
+        function updateUI() {
+            const toolbar = document.querySelector('.toolbar-3d');
+            if (toolbar) {
+                toolbar.querySelectorAll('button[data-mode]').forEach(btn => {
+                    btn.classList.remove('active');
+                    if (btn.dataset.mode === Editor3D.state.mode) {
+                        btn.classList.add('active');
+                    }
+                });
+                
+                toolbar.querySelectorAll('button[data-view]').forEach(btn => {
+                    btn.classList.remove('active');
+                    if (btn.dataset.view === Editor3D.state.viewMode) {
+                        btn.classList.add('active');
+                    }
+                });
+            }
+            
+            updateGridUI();
+        }
+        
+        function updateGridUI() {
+            const gridBtn = document.getElementById('grid-btn');
+            if (gridBtn) {
+                gridBtn.classList.toggle('active', Editor3D.state.snapToGrid);
+            }
+            if (Editor3D.state.gridHelper) {
+                Editor3D.state.gridHelper.visible = Editor3D.state.snapToGrid;
+            }
+        }
+        
+        function showElementCategory(category) {
+            const items = {
+                walls: ['standard', 'thick', 'thin'],
+                doors: ['single', 'double', 'sliding'],
+                windows: ['standard', 'large', 'small'],
+                furniture: ['sofa', 'chair', 'table', 'bed', 'cabinet']
+            };
+            const list = items[category];
+            if (!list) return;
+            
+            const container = document.getElementById('editor-container');
+            const popup = document.createElement('div');
+            popup.style.cssText = 'position: absolute; left: 220px; top: 50px; background: white; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.2); padding: 10px; z-index: 200;';
+            popup.innerHTML = `<h4 style="margin: 0 0 10px 0; font-size: 12px; font-weight: 600;">${category}</h4>`;
+            
+            list.forEach(id => {
+                const btn = document.createElement('button');
+                btn.textContent = Editor3D.library[category][id].name;
+                btn.style.cssText = 'display: block; width: 100%; padding: 6px; margin: 2px 0; border: none; background: #f5f5f5; border-radius: 4px; cursor: pointer; font-size: 12px; text-align: left;';
+                btn.onclick = () => {
+                    Editor3D.startDrawing(category, id);
+                    container.removeChild(popup);
+                };
+                popup.appendChild(btn);
+            });
+            
+            container.appendChild(popup);
+        }
+        
+        function closePropertiesPanel() {
+            document.getElementById('properties-panel').style.display = 'none';
+        }
+        
+        function showProperties(object) {
+            const content = document.getElementById('properties-content');
+            if (!content) return;
+            
+            const data = object.userData;
+            let html = `<div style="margin-bottom: 10px;">
+                <label style="display: block; font-size: 11px; color: #666; margin-bottom: 4px;">Nombre</label>
+                <input type="text" style="width: 100%; padding: 6px; border: 1px solid #ddd; border-radius: 4px; font-size: 12px;" 
+                       value="${data.name || ''}" onchange="updateProperty('name', this.value)">
+            </div>`;
+            
+            if (data.width !== undefined) {
+                html += `<div style="margin-bottom: 10px;">
+                    <label style="display: block; font-size: 11px; color: #666; margin-bottom: 4px;">Ancho (m)</label>
+                    <input type="number" style="width: 100%; padding: 6px; border: 1px solid #ddd; border-radius: 4px; font-size: 12px;" 
+                           value="${data.width}" onchange="updateProperty('width', parseFloat(this.value))" step="0.01">
+                </div>`;
+            }
+            if (data.height !== undefined) {
+                html += `<div style="margin-bottom: 10px;">
+                    <label style="display: block; font-size: 11px; color: #666; margin-bottom: 4px;">Alto (m)</label>
+                    <input type="number" style="width: 100%; padding: 6px; border: 1px solid #ddd; border-radius: 4px; font-size: 12px;" 
+                           value="${data.height}" onchange="updateProperty('height', parseFloat(this.value))" step="0.01">
+                </div>`;
+            }
+            if (data.length !== undefined) {
+                html += `<div style="margin-bottom: 10px;">
+                    <label style="display: block; font-size: 11px; color: #666; margin-bottom: 4px;">Largo (m)</label>
+                    <input type="number" style="width: 100%; padding: 6px; border: 1px solid #ddd; border-radius: 4px; font-size: 12px;" 
+                           value="${data.length}" onchange="updateProperty('length', parseFloat(this.value))" step="0.01">
+                </div>`;
+            }
+            if (data.depth !== undefined) {
+                html += `<div style="margin-bottom: 10px;">
+                    <label style="display: block; font-size: 11px; color: #666; margin-bottom: 4px;">Profundidad (m)</label>
+                    <input type="number" style="width: 100%; padding: 6px; border: 1px solid #ddd; border-radius: 4px; font-size: 12px;" 
+                           value="${data.depth}" onchange="updateProperty('depth', parseFloat(this.value))" step="0.01">
+                </div>`;
+            }
+            if (data.material !== undefined) {
+                html += `<div style="margin-bottom: 10px;">
+                    <label style="display: block; font-size: 11px; color: #666; margin-bottom: 4px;">Material</label>
+                    <select style="width: 100%; padding: 6px; border: 1px solid #ddd; border-radius: 4px; font-size: 12px;" 
+                            onchange="updateProperty('material', this.value)">
+                        <option value="concrete" ${data.material === 'concrete' ? 'selected' : ''}>Concreto</option>
+                        <option value="brick" ${data.material === 'brick' ? 'selected' : ''}>Ladrillo</option>
+                        <option value="wood" ${data.material === 'wood' ? 'selected' : ''}>Madera</option>
+                    </select>
+                </div>`;
+            }
+            
+            content.innerHTML = html;
+            document.getElementById('properties-panel').style.display = 'block';
+        }
+        
+        function updateProperty(key, value) {
+            if (Editor3D.state.selectedObject) {
+                Editor3D.state.selectedObject.userData[key] = value;
+                Editor3D.updateObjectGeometry(Editor3D.state.selectedObject);
+            }
+        }
+        
+        // Sobrescribir funciones del editor para actualizar UI
+        const originalSelect = Editor3D.selectObject;
+        Editor3D.selectObject = function(object) {
+            originalSelect(object);
+            updateUI();
+        };
+        
+        const originalStartDrawing = Editor3D.startDrawing;
+        Editor3D.startDrawing = function(type, id) {
+            originalStartDrawing(type, id);
+            updateUI();
+        };
+        
+        Editor3D.showProperties = showProperties;
+        Editor3D.closePropertiesPanel = closePropertiesPanel;
+        Editor3D.updateUIForMode = updateUI;
+        Editor3D.updateUIForSelection = function() {
+            if (Editor3D.state.selectedObject) {
+                showProperties(Editor3D.state.selectedObject);
+            } else {
+                closePropertiesPanel();
+            }
+        };
+        Editor3D.updateUIForGrid = updateGridUI;
+        
+        // Funciones de exportación
+        async function copyToClipboard(format = 'json') {
+            let data = format === 'svg' ? Editor3D.exportToSVG() : Editor3D.exportToJSON();
+            try {
+                await navigator.clipboard.writeText(data);
+                showNotification(`Diseño copiado al portapapeles (${format.toUpperCase()})`, 'success');
+            } catch (error) {
+                showNotification('No se pudo copiar al portapapeles', 'error');
+            }
+        }
+        
+        async function downloadPNG() {
+            const blob = await Editor3D.exportToPNG();
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `diseño-3d-${new Date().toISOString().slice(0, 10)}.png`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+        
+        function saveDesign() {
+            const design = Editor3D.exportToJSON();
+            localStorage.setItem('mexicaliBuilderLastDesign', design);
+            showNotification('Diseño guardado localmente', 'success');
+        }
+        
+        function exportDesign() {
+            const design = Editor3D.exportToJSON();
+            const blob = new Blob([design], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `diseño-3d-${new Date().toISOString().slice(0, 10)}.json`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+        
+        function closeFullscreen() {
+            window.close();
+        }
+        
+        function showNotification(message, type = 'info', duration = 3000) {
+            const notification = document.createElement('div');
+            notification.style.cssText = `position: fixed; bottom: 20px; right: 20px; background: white; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); padding: 12px 20px; z-index: 1000; animation: slideUp 0.3s ease-out;`;
+            notification.innerHTML = `
+                <div style="display: flex; align-items: center; gap: 8px;">
+                    <i class="fa-solid ${type === 'success' ? 'fa-check-circle' : type === 'error' ? 'fa-exclamation-circle' : 'fa-info-circle'} ${type === 'success' ? 'text-green-500' : type === 'error' ? 'text-red-500' : 'text-blue-500'}"></i>
+                    <span style="font-size: 14px;">${message}</span>
+                </div>
+            `;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.animation = 'fadeOut 0.3s ease-out';
+                setTimeout(() => notification.remove(), 300);
+            }, duration);
+        }
+        
+        // Cargar diseño guardado
+        window.addEventListener('load', function() {
+            const saved = localStorage.getItem('mexicaliBuilderLastDesign');
+            if (saved) {
+                try {
+                    Editor3D.importFromJSON(saved);
+                } catch (e) {
+                    console.error('Error loading saved design:', e);
+                }
+            }
+        });
+        
+        // Guardar al salir
+        window.addEventListener('beforeunload', function() {
+            saveDesign();
+        });
+    </script>
+</body>
+</html>
