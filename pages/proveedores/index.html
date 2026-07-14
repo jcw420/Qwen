@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proveedores Locales - Mexicali Builder</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../../css/styles.css">
+    
+    <style>
+        .proveedor-card {
+            transition: all 0.3s;
+        }
+        .proveedor-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+        .category-tab {
+            transition: all 0.2s;
+        }
+        .category-tab.active {
+            background: #7a3e2a;
+            color: white;
+        }
+    </style>
+</head>
+<body class="bg-desert-50 text-slate-800">
+    
+    <!-- Header -->
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <i class="fa-solid fa-truck text-desert-800 text-2xl"></i>
+                <div>
+                    <h1 class="text-xl font-bold text-desert-900">Directorio de Proveedores</h1>
+                    <p class="text-sm text-desert-500">Mexicali, Baja California</p>
+                </div>
+            </div>
+            <a href="../../index.html" class="bg-desert-800 text-white px-4 py-2 rounded-lg text-sm hover:bg-desert-900 transition">
+                <i class="fa-solid fa-arrow-left"></i> Regresar
+            </a>
+        </div>
+    </header>
+    
+    <!-- Main Content -->
+    <main class="max-w-6xl mx-auto px-4 py-8">
+        
+        <!-- Hero Section -->
+        <section class="text-center mb-12">
+            <span class="inline-block bg-desert-100 text-desert-800 px-4 py-2 rounded-full text-sm font-medium mb-4">
+                <i class="fa-solid fa-address-book mr-1"></i> Proveedores Locales
+            </span>
+            <h1 class="text-3xl md:text-4xl font-bold text-desert-900 mb-4">
+                Directorio de Proveedores de Materiales de Construcción
+            </h1>
+            <p class="text-lg text-slate-600 max-w-3xl mx-auto">
+                Encuentra proveedores de materiales de construcción en Mexicali. 
+                Contactos, precios aproximados y servicios ofrecidos.
+            </p>
+        </section>
+        
+        <!-- Categorías -->
+        <div class="flex flex-wrap justify-center gap-2 mb-8">
+            <button class="category-tab active px-4 py-2 rounded-lg text-sm font-medium" onclick="showCategory('todos')">
+                <i class="fa-solid fa-th-large mr-1"></i> Todos
+            </button>
+            <button class="category-tab px-4 py-2 rounded-lg text-sm font-medium" onclick="showCategory('materiales')">
+                <i class="fa-solid fa-cube mr-1"></i> Materiales Básicos
+            </button>
+            <button class="category-tab px-4 py-2 rounded-lg text-sm font-medium" onclick="showCategory('acabados')">
+                <i class="fa-solid fa-paint-roller mr-1"></i> Acabados
+            </button>
+            <button class="category-tab px-4 py-2 rounded-lg text-sm font-medium" onclick="showCategory('instalaciones')">
+                <i class="fa-solid fa-tools mr-1"></i> Instalaciones
+            </button>
+            <button class="category-tab px-4 py-2 rounded-lg text-sm font-medium" onclick="showCategory('muebles')">
+                <i class="fa-solid fa-chair mr-1"></i> Muebles y Cocinas
+            </button>
+            <button class="category-tab px-4 py-2 rounded-lg text-sm font-medium" onclick="showCategory('exteriores')">
+                <i class="fa-solid fa-tree mr-1"></i> Exterior y Jardín
+            </button>
+        </div>
+        
+        <!-- Lista de Proveedores -->
+        <div id="proveedores-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            
+            <!-- Proveedores de Materiales Básicos -->
+            <div class="proveedor-card bg-white p-6 rounded-2xl shadow-lg border border-desert-100" data-category="materiales">
+                <div class="flex justify-between items-start mb-3">
+                    <div>
+                        <h3 class="text-lg font-bold text-desert-900">Block Mexicali</h3>
+                        <p class="text-sm text-desert-500">Materiales de Construcción</p>
+                    </div>
+                    <span class="badge badge-primary"><i class="fa-solid fa-cube"></i> Materiales</span>
+                </div>
+                <div class="space-y-2 text-sm">
+                    <div class="flex items-center gap-2">
+                        <i class="fa-solid fa-map-marker-alt text-desert-600"></i>
+                        <span>Av. López Mateos 1500, Mexicali</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <i class="fa-solid fa-phone text-desert-600"></i>
+                        <span>(686) 555-0123</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <i class="fa-solid fa-envelope text-desert-600"></i>
+                        <span>ventas@blockmexicali.com</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <i class="fa-solid fa-globe text-desert-600"></i>
+                        <span>www.blockmexicali.com</span>
+                    </div>
+                </div>
+                <div class="mt-4 pt-4 border-t border-desert-100">
+                    <h4 class="font-bold text-desert-800 mb-2">Productos:</h4>
+                    <div class="flex flex-wrap gap-1">
+                        <span class="badge badge-success">Block de concreto</span>
+                        <span class="badge badge-success">Hebel</span>
+                        <span class="badge badge-success">Cemento</span>
+                        <span class="badge badge-success">Varilla</span>
+                        <span class="badge badge-success">Arena y grava</span>
+                    </div>
+                </div>
+                <div class="mt-4 flex gap-2">
+                    <button class="btn btn-outline text-xs" onclick="callProvider('Block Mexicali', '(686) 555-0123')">
+                        <i class="fa-solid fa-phone"></i> Llamar
+                    </button>
+                    <button class="btn btn-outline text-xs" onclick="showMap('Block Mexicali', 'Av. López Mateos 1500, Mexicali')">
+                        <i class="fa-solid fa-map"></i> Mapa
+                    </button>
+                </div>
+            </div>
+            
+            <div class="proveedor-card bg-white p-6 rounded-2xl shadow-lg border border-desert-100" data-category="materiales">
+                <div class="flex justify-between items-start mb-3">
+                    <div>
+                        <h3 class="text-lg font-bold text-desert-900">Concretos del Noroeste</h3>
+                        <p class="text-sm text-desert-500">Concreto Premezclado</p>
+                    </div>
+                    <span class="badge badge-primary"><i class="fa-solid fa-cube"></i> Materiales</span>
+                </div>
+                <div class="space-y-2 text-sm">
+                    <div class="flex items-center gap-2">
+                        <i class="fa-solid fa-map-marker-alt text-desert-600"></i>
+                        <span>Calle 5ta 200, Mexicali</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <i class="fa-solid fa-phone text-desert-600"></i>
+                        <span>(686) 555-0456</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <i class="fa-solid fa-envelope text-desert-600"></i>
+                        <span>contacto@concretosnoroeste.com</span>
+                    </div>
+                </div>
+                <div class="mt-4 pt-4 border-t border-desert-100">
+                    <h4 class="font-bold text-desert-800 mb-2">Productos:</h4>
+                    <div class="flex flex-wrap gap-1">
+                        <span class="badge badge-success">Concreto premezclado</span>
+                        <span class="badge badge-success">Mortero</span>
+                        <span class="badge badge-success">Grout</span>
+                    </div>
+                    <div class="mt-2 text-sm">
+                        <strong>Resistencias:</strong> f'c 200, 250, 300, 350 kg/cm²
+                    </div>
+                </div>
+                <div class="mt-4 flex gap-2">
+                    <button class="btn btn-outline text-xs" onclick="callProvider('Concretos del Noroeste', '(686) 555-0456')">
+                        <i class="fa-solid fa-phone"></i> Llamar
+                    </button>
+                    <button class="btn btn-outline text-xs" onclick="showMap('Concretos del Noroeste', 'Calle 5ta 200, Mexicali')">
+                        <i class="fa-solid fa-map"></i> Mapa
+                    </button>
+                </div>
+            </div>
+            
+            <div class="proveedor-card bg-white p-6 rounded-2xl shadow-lg border border-desert-100" data-category="materiales">
+                <div class="flex justify-between items-start mb-3">
+                    <div>
+                        <h3 class="text-lg font-bold text-desert-900">Aceros Mexicali</h3>
+                        <p class="text-sm text-desert-500">Acero para Construcción</p>
+                    </div>
+                    <span class="badge badge-primary"><i class="fa-solid fa-cube"></i> Materiales</span>
+                </div>
+                <div class="space-y-2 text-sm">
+                    <div class="flex items-center gap-2">
+                        <i class="fa-solid fa-map-marker-alt text-desert-600"></i>
+                        <span>Blvd. Benito Juárez 1000, Mexicali</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <i class="fa-solid fa-phone text-desert-600"></i>
+                        <span>(686) 555-0789</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <i class="fa-solid fa-envelope text-desert-600"></i>
+                        <span>ventas@acerosmexicali.com</span>
+                    </div>
+                </div>
+                <div class="mt-4 pt-4 border-t border-desert-100">
+                    <h4 class="font-bold text-desert-800 mb-2">Productos:</h4>
+                    <div class="flex flex-wrap gap-1">
+                        <span class="badge badge-success">Varilla corrugada</span>
+                        <span class="badge badge-success">Alambrón</span>
+                        <span class="badge badge-success">Malla electrosoldada</span>
+                        <span class="badge badge-success">Perfiles estructurales</span>
+                    </div>
+                    <div class="mt-2 text-sm">
+                        <strong>Calibres:</strong> 3/8", 1/2", 5/8", 3/4", 1"
+                    </div>
+                </div>
+                <div class="mt-4 flex gap-2">
+                    <button class="btn btn-outline text-xs" onclick="callProvider('Aceros Mexicali', '(686) 555-0789')">
+                        <i class="fa-solid fa-phone"></i> Llamar
+                    </button>
+                    <button class="btn btn-outline text-xs" onclick="showMap('Aceros Mexicali', 'Blvd. Benito Juárez 1000, Mexicali')">
+                        <i class="fa-solid fa-map"></i> Mapa
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Proveedores de Acabados -->
+            <div class="proveedor-card bg-white p-6 rounded-2xl shadow-lg border border-desert-100" data-category="acabados">
+                <div class="flex justify-between items-start mb-3">
+                    <div>
+                        <h3 class="text-lg font-bold text-desert-900">Cerámicas del Desierto</h3>
+                        <p class="text-sm text-desert-500">Pisos y Azulejos</p>
+                    </div>
+                    <span class="badge badge-warning"><i class="fa-solid fa-paint-roller"></i> Acabados</span>
+                </div>
+                <div class="space-y-2 text-sm">
+                    <div class="flex items-center gap-2">
+                        <i class="fa-solid fa-map-marker-alt text-desert-600"></i>
+                        <span>Av. Madero 800, Mexicali</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <i class="fa-solid fa-phone text-desert-600"></i>
+                        <span>(686) 555-1234</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <i class="fa-solid fa-envelope text-desert-600"></i>
+                        <span>info@ceramicadesierto.com</span>
+                    </div>
+                </div>
+                <div class="mt-4 pt-4 border-t border-desert-100">
+                    <h4 class="font-bold text-desert-800 mb-2">Productos:</h4>
+                    <div class="flex flex-wrap gap-1">
+                        <span class="badge badge-success">Piso cerámico</span>
+                        <span class="badge badge-success">Azulejo de pared</span>
+                        <span class="badge badge-success">Porcelanato</span>
+                        <span class="badge badge-success">Adhesivos</span>
+                        <span class="badge badge-success">Grout</span>
+                    </div>
+                    <div class="mt-2 text-sm">
+                        <strong>Marcas:</strong> Vitromex, Interceramic, Lamosa
+                    </div>
+                </div>
+                <div class="mt-4 flex gap-2">
+                    <button class="btn btn-outline text-xs" onclick="callProvider('Cerámicas del Desierto', '(686) 555-1234')">
+                        <i class="fa-solid fa-phone"></i> Llamar
+                    </button>
+                    <button class="btn btn-outline text-xs" onclick="showMap('Cerámicas del Desierto', 'Av. Madero 800, Mexicali')">
+                        <i class="fa-solid fa-map"></i> Mapa
+                    </button>
+                </div>
+            </div>
+            
+            <div class="proveedor-card bg-white p-6 rounded-2xl shadow-lg border border-desert-100" data-category="acabados">
+                <div class="flex justify-between items-start mb-3">
+                    <div>
+                        <h3 class="text-lg font-bold text-desert-900">Pinturas del Valle</h3>
+                        <p class="text-sm text-desert-500">Pinturas y Recubrimientos</p>
+                    </div>
+                    <span class="badge badge-warning"><i class="fa-solid fa-paint-roller"></i> Acabados</span>
+                </div>
+                <div class="space-y-2 text-sm">
+                    <div class="flex items-center gap-2">
+                        <i class="fa-solid fa-map-marker-alt text-desert-600"></i>
+                        <span>Calle 3ra 150, Mexicali</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <i class="fa-solid fa-phone text-desert-600"></i>
+                        <span>(686) 555-2345</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <i class="fa-solid fa-envelope text-desert-600"></i>
+                        <span>ventas@pinturasdelvalle.com</span>
+                    </div>
+                </div>
+                <div class="mt-4 pt-4 border-t border-desert-100">
+                    <h4 class="font-bold text-desert-800 mb-2">Productos:</h4>
+                    <div class="flex flex-wrap gap-1">
+                        <span class="badge badge-success">Pintura vinílica</span>
+                        <span class="badge badge-success">Pintura acrílica</span>
+                        <span class="badge badge-success">Pintura elastomérica</span>
+                        <span class="badge badge-success">Texturizados</span>
+                        <span class="badge badge-success">Impermeabilizantes</span>
+                    </div>
+                    <div class="mt-2 text-sm">
+                        <strong>Marcas:</strong> Sherwin-Williams, Comex, Berel
+                    </div>
+                </div>
+                <div class="mt-4 flex gap-2">
+                    <button class="btn btn-outline text-xs" onclick="callProvider('Pinturas del Valle', '(686) 555-2345')">
+                        <i class="fa-solid fa-phone"></i> Llamar
+                    </button>
+                    <button class="btn btn-outline text-xs" onclick="showMap('Pinturas del Valle', 'Calle 3ra 150, Mexicali')">
+                        <i class="fa-solid fa-map"></i> Mapa
+                    </button>
+                </div>
+            </div>
+            
+            <div class="proveedor-card bg-white p-6 rounded-2xl shadow-lg border border-desert-100" data-category="acabados">
+                <div class="flex justify-between items-start mb-3">
+                    <div>
+                        <h3 class="text-lg font-bold text-desert-900">Mármoles y Granitos</h3>
+                        <p class="text-sm text-desert-500">Piedras Naturales</p>
+                    </div>
+                    <span class="badge badge-warning"><i class="fa-solid fa-paint-roller"></i> Acabados</span>
+                </div>
+                <div class="space-y-2 text-sm">
+                    <div class="flex items-center gap-2">
+                        <i class="fa-solid fa-map-marker-alt text-desert-600"></i>
+                        <span>Av. Independencia 2000, Mexicali</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <i class="fa-solid fa-phone text-desert-600"></i>
+                        <span>(686) 555-3456</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <i class="fa-solid fa-envelope text-desert-600"></i>
+                        <span>contacto@marmolesygranitos.com</span>
+                    </div>
+                </div>
+                <div class="mt-4 pt-4 border-t border-desert-100">
+                    <h4 class="font-bold text-desert-800 mb-2">Productos:</h4>
+                    <div class="flex flex-wrap gap-1">
+                        <span class="badge badge-success">Mármol</span>
+                        <span class="badge badge-success">Granito</span>
+                        <span class="badge badge-success">Cantera</span>
+                        <span class="badge badge-success">Pizarra</span>
+                        <span class="badge badge-success">Cuarzos</span>
+                    </div>
+                    <div class="mt-2 text-sm">
+                        <strong>Servicios:</strong> Corte a medida, instalación, pulido
+                    </div>
+                </div>
+                <div class="mt-4 flex gap-2">
+                    <button class="btn btn-outline text-xs" onclick="callProvider('Mármoles y Granitos', '(686) 555-3456')">
+                        <i class="fa-solid fa-phone"></i> Llamar
+                    </button>
+                    <button class="btn btn-outline text-xs" onclick="showMap('Mármoles y Granitos', 'Av. Independencia 2000, Mexicali')">
+                        <i class="fa-solid fa-map"></i> Mapa
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Proveedores de Instalaciones -->
+            <div class="proveedor-card bg-white p-6 rounded-2xl shadow-lg border border-desert-100" data-category="instalaciones">
+                <div class="flex justify-between items-start mb-3">
+                    <div>
+                        <h3 class="text-lg font-bold text-desert-900">Electricidad del Noroeste</h3>
+                        <p class="text-sm text-desert-500">Instalaciones Eléctricas</p>
+                    </div>
+                    <span class="badge badge-success"><i class="fa-solid fa-tools"></i> Instalaciones</span>
+                </div>
+                <div class="space-y-2 text-sm">
+                    <div class="flex items-center gap-2">
+                        <i class="fa-solid fa-map-marker-alt text-desert-600"></i>
+                        <span>Calle 8va 300, Mexicali</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <i class="fa-solid fa-phone text-desert-600"></i>
+                        <span>(686) 555-4567</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <i class="fa-solid fa-envelope text-desert-600"></i>
+                        <span>contacto@electricidaddelnoroeste.com</span>
+                    </div>
+                </div>
+                <div class="mt-4 pt-4 border-t border-desert-100">
+                    <h4 class="font-bold text-desert-800 mb-2">Servicios:</h4>
+                    <div class="flex flex-wrap gap-1">
+                        <span class="badge badge-primary">Instalación eléctrica</span>
+                        <span class="badge badge-primary">Tableros de distribución</span>
+                        <span class="badge badge-primary">Iluminación</span>
+                        <span class="badge badge-primary">Sistemas de emergencia</span>
+                        <span class="badge badge-primary">Automatización</span>
+                    </div>
+                    <div class="mt-2 text-sm">
+                        <strong>Certificaciones:</strong> CFE, NOM-001-SEDE-2012
+                    </div>
+                </div>
+                <div class="mt-4 flex gap-2">
+                    <button class="btn btn-outline text-xs" onclick="callProvider('Electricidad del Noroeste', '(686) 555-4567')">
+                        <i class="fa-solid fa-phone"></i> Llamar
+                    </button>
+                    <button class="btn btn-outline text-xs" onclick="showMap('Electricidad del Noroeste', 'Calle 8va 300, Mexicali')">
+                        <i class="fa-solid fa-map"></i> Mapa
+                    </button>
+                </div>
+            </div>
+            
+            <div class="proveedor-card bg-white p-6 rounded-2xl shadow-lg border border-desert-100" data-category="instalaciones">
+                <div class="flex justify-between items-start mb-3">
+                    <div>
+                        <h3 class="text-lg font-bold text-desert-900">Hidráulica Mexicali</h3>
+                        <p class="text-sm text-desert-500">Instalaciones Hidráulicas y Sanitarias</p>
+                    </div>
+                    <span class="badge badge-success"><i class="fa-solid fa-tools"></i> Instalaciones</span>
+                </div>
+                <div class="space-y-2 text-sm">
+                    <div class="flex items-center gap-2">
+                        <i class="fa-solid fa-map-marker-alt text-desert-600"></i>
+                        <span>Av. Revolución 1200, Mexicali</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <i class="fa-solid fa-phone text-desert-600"></i>
+                        <span>(686) 555-5678</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <i class="fa-solid fa-envelope text-desert-600"></i>
+                        <span>ventas@hidraulicamexicali.com</span>
+                    </div>
+                </div>
+                <div class="mt-4 pt-4 border-t border-desert-100">
+                    <h4 class="font-bold text-desert-800 mb-2">Servicios:</h4>
+                    <div class="flex flex-wrap gap-1">
+                        <span class="badge badge-primary">Instalación hidráulica</span>
+                        <span class="badge badge-primary">Instalación sanitaria</span>
+                        <span class="badge badge-primary">Tubería de cobre</span>
+                        <span class="badge badge-primary">Tubería de CPVC</span>
+                        <span class="badge badge-primary">Calentadores solares</span>
+                    </div>
+                    <div class="mt-2 text-sm">
+                        <strong>Especialidad:</strong> Sistemas de ahorro de agua
+                    </div>
+                </div>
+                <div class="mt-4 flex gap-2">
+                    <button class="btn btn-outline text-xs" onclick="callProvider('Hidráulica Mexicali', '(686) 555-5678')">
+                        <i class="fa-solid fa-phone"></i> Llamar
+                    </button>
+                    <button class="btn btn-outline text-xs" onclick="showMap('Hidráulica Mexicali', 'Av. Revolución 1200, Mexicali')">
+                        <i class="fa-solid fa-map"></i> Mapa
+                    </button>
+                </div>
+            </div>
+            
+            <div class="proveedor-card bg-white p-6 rounded-2xl shadow-lg border border-desert-100" data-category="instalaciones">
+                <div class="flex justify-between items-start mb-3">
+                    <div>
+                        <h3 class="text-lg font-bold text-desert-900">Clima Control</h3>
+                        <p class="text-sm text-desert-500">Sistemas de Climatización</p>
+                    </div>
+                    <span class="badge badge-success"><i class="fa-solid fa-tools"></i> Instalaciones</span>
+                </div>
+                <div class="space-y-2 text-sm">
+                    <div class="flex items-center gap-2">
+                        <i class="fa-solid fa-map-marker-alt text-desert-600"></i>
+                        <span>Blvd. Lázaro Cárdenas 2500, Mexicali</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <i class="fa-solid fa-phone text-desert-600"></i>
+                        <span>(686) 555-6789</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <i class="fa-solid fa-envelope text-desert-600"></i>
+                        <span>info@climacontrol.com</span>
+                    </div>
+                </div>
+                <div class="mt-4 pt-4 border-t border-desert-100">
+                    <h4 class="font-bold text-desert-800 mb-2">Servicios:</h4>
+                    <div class="flex flex-wrap gap-1">
+                        <span class="badge badge-primary">Aire acondicionado</span>
+                        <span class="badge badge-primary">Calefacción</span>
+                        <span class="badge badge-primary">Ventilación</span>
+                        <span class="badge badge-primary">Mantenimiento</span>
+                        <span class="badge badge-primary">Reparación</span>
+                    </div>
+                    <div class="mt-2 text-sm">
+                        <strong>Marcas:</strong> Carrier, Trane, York, Mitsubishi
+                    </div>
+                </div>
+                <div class="mt-4 flex gap-2">
+                    <button class="btn btn-outline text-xs" onclick="callProvider('Clima Control', '(686) 555-6789')">
+                        <i class="fa-solid fa-phone"></i> Llamar
+                    </button>
+                    <button class="btn btn-outline text-xs" onclick="showMap('Clima Control', 'Blvd. Lázaro Cárdenas 2500, Mexicali')">
+                        <i class="fa-solid fa-map"></i> Mapa
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Proveedores de Muebles -->
+            <div class="proveedor-card bg-white p-6 rounded-2xl shadow-lg border border-desert-100" data-category="muebles">
+                <div class="flex justify-between items-start mb-3">
+                    <div>
+                        <h3 class="text-lg font-bold text-desert-900">Muebles del Desierto</h3>
+                        <p class="text-sm text-desert-500">Muebles para Hogar</p>
+                    </div>
+                    <span class="badge badge-warning"><i class="fa-solid fa-chair"></i> Muebles</span>
+                </div>
+                <div class="space-y-2 text-sm">
+                    <div class="flex items-center gap-2">
+                        <i class="fa-solid fa-map-marker-alt text-desert-600"></i>
+                        <span>Av. Juárez 500, Mexicali</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <i class="fa-solid fa-phone text-desert-600"></i>
+                        <span>(686) 555-7890</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <i class="fa-solid fa-envelope text-desert-600"></i>
+                        <span>ventas@mueblesdeldesierto.com</span>
+                    </div>
+                </div>
+                <div class="mt-4 pt-4 border-t border-desert-100">
+                    <h4 class="font-bold text-desert-800 mb-2">Productos:</h4>
+                    <div class="flex flex-wrap gap-1">
+                        <span class="badge badge-success">Sofás</span>
+                        <span class="badge badge-success">Mesas</span>
+                        <span class="badge badge-success">Sillas</span>
+                        <span class="badge badge-success">Camas</span>
+                        <span class="badge badge-success">Gabinetes</span>
+                    </div>
+                    <div class="mt-2 text-sm">
+                        <strong>Estilos:</strong> Moderno, Rústico, Contemporáneo
+                    </div>
+                </div>
+                <div class="mt-4 flex gap-2">
+                    <button class="btn btn-outline text-xs" onclick="callProvider('Muebles del Desierto', '(686) 555-7890')">
+                        <i class="fa-solid fa-phone"></i> Llamar
+                    </button>
+                    <button class="btn btn-outline text-xs" onclick="showMap('Muebles del Desierto', 'Av. Juárez 500, Mexicali')">
+                        <i class="fa-solid fa-map"></i> Mapa
+                    </button>
+                </div>
+            </div>
+            
+            <div class="proveedor-card bg-white p-6 rounded-2xl shadow-lg border border-desert-100" data-category="muebles">
+                <div class="flex justify-between items-start mb-3">
+                    <div>
+                        <h3 class="text-lg font-bold text-desert-900">Cocinas Integrales</h3>
+                        <p class="text-sm text-desert-500">Cocinas y Closets</p>
+                    </div>
+                    <span class="badge badge-warning"><i class="fa-solid fa-chair"></i> Muebles</span>
+                </div>
+                <div class="space-y-2 text-sm">
+                    <div class="flex items-center gap-2">
+                        <i class="fa-solid fa-map-marker-alt text-desert-600"></i>
+                        <span>Calle 10ma 800, Mexicali</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <i class="fa-solid fa-phone text-desert-600"></i>
+                        <span>(686) 555-8901</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <i class="fa-solid fa-envelope text-desert-600"></i>
+                        <span>contacto@cocinasintegrales.com</span>
+                    </div>
+                </div>
+                <div class="mt-4 pt-4 border-t border-desert-100">
+                    <h4 class="font-bold text-desert-800 mb-2">Servicios:</h4>
+                    <div class="flex flex-wrap gap-1">
+                        <span class="badge badge-success">Cocinas integrales</span>
+                        <span class="badge badge-success">Closets</span>
+                        <span class="badge badge-success">Baños</span>
+                        <span class="badge badge-success">Diseño a medida</span>
+                        <span class="badge badge-success">Instalación</span>
+                    </div>
+                    <div class="mt-2 text-sm">
+                        <strong>Materiales:</strong> MDF, Melamina, Madera sólida
+                    </div>
+                </div>
+                <div class="mt-4 flex gap-2">
+                    <button class="btn btn-outline text-xs" onclick="callProvider('Cocinas Integrales', '(686) 555-8901')">
+                        <i class="fa-solid fa-phone"></i> Llamar
+                    </button>
+                    <button class="btn btn-outline text-xs" onclick="showMap('Cocinas Integrales', 'Calle 10ma 800, Mexicali')">
+                        <i class="fa-solid fa-map"></i> Mapa
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Proveedores de Exterior -->
+            <div class="proveedor-card bg-white p-6 rounded-2xl shadow-lg border border-desert-100" data-category="exteriores">
+                <div class="flex justify-between items-start mb-3">
+                    <div>
+                        <h3 class="text-lg font-bold text-desert-900">Viveros del Valle</h3>
+                        <p class="text-sm text-desert-500">Plantas y Jardinería</p>
+                    </div>
+                    <span class="badge badge-success"><i class="fa-solid fa-tree"></i> Exterior</span>
+                </div>
+                <div class="space-y-2 text-sm">
+                    <div class="flex items-center gap-2">
+                        <i class="fa-solid fa-map-marker-alt text-desert-600"></i>
+                        <span>Carretera a San Felipe Km 5, Mexicali</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <i class="fa-solid fa-phone text-desert-600"></i>
+                        <span>(686) 555-9012</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <i class="fa-solid fa-envelope text-desert-600"></i>
+                        <span>ventas@viverosdelvalle.com</span>
+                    </div>
+                </div>
+                <div class="mt-4 pt-4 border-t border-desert-100">
+                    <h4 class="font-bold text-desert-800 mb-2">Productos:</h4>
+                    <div class="flex flex-wrap gap-1">
+                        <span class="badge badge-success">Árboles</span>
+                        <span class="badge badge-success">Arbustos</span>
+                        <span class="badge badge-success">Plantas suculentas</span>
+                        <span class="badge badge-success">Césped</span>
+                        <span class="badge badge-success">Palmas</span>
+                    </div>
+                    <div class="mt-2 text-sm">
+                        <strong>Especialidad:</strong> Plantas nativas del desierto
+                    </div>
+                </div>
+                <div class="mt-4 flex gap-2">
+                    <button class="btn btn-outline text-xs" onclick="callProvider('Viveros del Valle', '(686) 555-9012')">
+                        <i class="fa-solid fa-phone"></i> Llamar
+                    </button>
+                    <button class="btn btn-outline text-xs" onclick="showMap('Viveros del Valle', 'Carretera a San Felipe Km 5, Mexicali')">
+                        <i class="fa-solid fa-map"></i> Mapa
+                    </button>
+                </div>
+            </div>
+            
+            <div class="proveedor-card bg-white p-6 rounded-2xl shadow-lg border border-desert-100" data-category="exteriores">
+                <div class="flex justify-between items-start mb-3">
+                    <div>
+                        <h3 class="text-lg font-bold text-desert-900">Albercas Mexicali</h3>
+                        <p class="text-sm text-desert-500">Construcción de Albercas</p>
+                    </div>
+                    <span class="badge badge-success"><i class="fa-solid fa-tree"></i> Exterior</span>
+                </div>
+                <div class="space-y-2 text-sm">
+                    <div class="flex items-center gap-2">
+                        <i class="fa-solid fa-map-marker-alt text-desert-600"></i>
+                        <span>Av. Obregón 1000, Mexicali</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <i class="fa-solid fa-phone text-desert-600"></i>
+                        <span>(686) 555-0123</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <i class="fa-solid fa-envelope text-desert-600"></i>
+                        <span>info@albercasmexicali.com</span>
+                    </div>
+                </div>
+                <div class="mt-4 pt-4 border-t border-desert-100">
+                    <h4 class="font-bold text-desert-800 mb-2">Servicios:</h4>
+                    <div class="flex flex-wrap gap-1">
+                        <span class="badge badge-primary">Construcción de albercas</span>
+                        <span class="badge badge-primary">Mantenimiento</span>
+                        <span class="badge badge-primary">Reparación</span>
+                        <span class="badge badge-primary">Iluminación</span>
+                        <span class="badge badge-primary">Climatización</span>
+                    </div>
+                    <div class="mt-2 text-sm">
+                        <strong>Tipos:</strong> Concreto, Fibra de vidrio, Acero inoxidable
+                    </div>
+                </div>
+                <div class="mt-4 flex gap-2">
+                    <button class="btn btn-outline text-xs" onclick="callProvider('Albercas Mexicali', '(686) 555-0123')">
+                        <i class="fa-solid fa-phone"></i> Llamar
+                    </button>
+                    <button class="btn btn-outline text-xs" onclick="showMap('Albercas Mexicali', 'Av. Obregón 1000, Mexicali')">
+                        <i class="fa-solid fa-map"></i> Mapa
+                    </button>
+                </div>
+            </div>
+            
+            <div class="proveedor-card bg-white p-6 rounded-2xl shadow-lg border border-desert-100" data-category="exteriores">
+                <div class="flex justify-between items-start mb-3">
+                    <div>
+                        <h3 class="text-lg font-bold text-desert-900">Cercas y Portones</h3>
+                        <p class="text-sm text-desert-500">Seguridad y Delimitación</p>
+                    </div>
+                    <span class="badge badge-success"><i class="fa-solid fa-tree"></i> Exterior</span>
+                </div>
+                <div class="space-y-2 text-sm">
+                    <div class="flex items-center gap-2">
+                        <i class="fa-solid fa-map-marker-alt text-desert-600"></i>
+                        <span>Calle 15ta 400, Mexicali</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <i class="fa-solid fa-phone text-desert-600"></i>
+                        <span>(686) 555-1234</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <i class="fa-solid fa-envelope text-desert-600"></i>
+                        <span>ventas@cercasportones.com</span>
+                    </div>
+                </div>
+                <div class="mt-4 pt-4 border-t border-desert-100">
+                    <h4 class="font-bold text-desert-800 mb-2">Productos:</h4>
+                    <div class="flex flex-wrap gap-1">
+                        <span class="badge badge-success">Cercas de malla</span>
+                        <span class="badge badge-success">Cercas de block</span>
+                        <span class="badge badge-success">Portones automáticos</span>
+                        <span class="badge badge-success">Bardas</span>
+                        <span class="badge badge-success">Muros</span>
+                    </div>
+                    <div class="mt-2 text-sm">
+                        <strong>Materiales:</strong> Acero galvanizado, Block, Madera
+                    </div>
+                </div>
+                <div class="mt-4 flex gap-2">
+                    <button class="btn btn-outline text-xs" onclick="callProvider('Cercas y Portones', '(686) 555-1234')">
+                        <i class="fa-solid fa-phone"></i> Llamar
+                    </button>
+                    <button class="btn btn-outline text-xs" onclick="showMap('Cercas y Portones', 'Calle 15ta 400, Mexicali')">
+                        <i class="fa-solid fa-map"></i> Mapa
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <!-- Footer -->
+    <footer class="bg-desert-900 text-white py-8 px-4 mt-12">
+        <div class="max-w-6xl mx-auto text-center">
+            <p class="text-desert-300 text-sm">
+                © 2024 MexicaliBuilder. La información de proveedores es de carácter referencial. 
+                Los precios y servicios pueden variar. Recomendamos contactar directamente a los proveedores 
+                para obtener información actualizada.
+            </p>
+        </div>
+    </footer>
+    
+    <script>
+        function showCategory(category) {
+            // Actualizar botones de categoría
+            document.querySelectorAll('.category-tab').forEach(tab => {
+                tab.classList.remove('active');
+                if (tab.textContent.toLowerCase().includes(category) || 
+                    (category === 'todos' && tab.textContent.toLowerCase().includes('todos'))) {
+                    tab.classList.add('active');
+                }
+            });
+            
+            // Filtrar proveedores
+            const proveedores = document.querySelectorAll('.proveedor-card');
+            proveedores.forEach(proveedor => {
+                const proveedorCategory = proveedor.dataset.category;
+                
+                if (category === 'todos' || proveedorCategory === category) {
+                    proveedor.style.display = 'block';
+                } else {
+                    proveedor.style.display = 'none';
+                }
+            });
+        }
+        
+        function callProvider(name, phone) {
+            // En un entorno real, esto abriría la app de teléfono
+            alert(`Llamando a ${name} al ${phone}`);
+        }
+        
+        function showMap(name, address) {
+            // En un entorno real, esto abriría Google Maps
+            const encodedAddress = encodeURIComponent(address);
+            const url = `https://www.google.com/maps/search/?api=1&query=${encodedAddress}`;
+            window.open(url, '_blank');
+        }
+        
+        // Mostrar todos al cargar
+        showCategory('todos');
+    </script>
+</body>
+</html>

@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Normativas de Construcción - Mexicali Builder</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../../css/styles.css">
+    
+    <style>
+        .normativa-card {
+            transition: all 0.3s;
+        }
+        .normativa-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body class="bg-desert-50 text-slate-800">
+    
+    <!-- Header -->
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <i class="fa-solid fa-gavel text-desert-800 text-2xl"></i>
+                <div>
+                    <h1 class="text-xl font-bold text-desert-900">Normativas de Construcción</h1>
+                    <p class="text-sm text-desert-500">Mexicali, Baja California</p>
+                </div>
+            </div>
+            <a href="../../index.html" class="bg-desert-800 text-white px-4 py-2 rounded-lg text-sm hover:bg-desert-900 transition">
+                <i class="fa-solid fa-arrow-left"></i> Regresar
+            </a>
+        </div>
+    </header>
+    
+    <!-- Main Content -->
+    <main class="max-w-6xl mx-auto px-4 py-8">
+        
+        <!-- Hero Section -->
+        <section class="text-center mb-12">
+            <span class="inline-block bg-desert-100 text-desert-800 px-4 py-2 rounded-full text-sm font-medium mb-4">
+                <i class="fa-solid fa-file-contract mr-1"></i> Normativas Locales
+            </span>
+            <h1 class="text-3xl md:text-4xl font-bold text-desert-900 mb-4">
+                Reglamentos y Normativas de Construcción en Mexicali
+            </h1>
+            <p class="text-lg text-slate-600 max-w-3xl mx-auto">
+                Información actualizada sobre los requisitos legales, permisos y estándares 
+                que debes cumplir para construir en Mexicali, Baja California.
+            </p>
+        </section>
+        
+        <!-- Categorías -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+            <div class="normativa-card bg-white p-6 rounded-2xl shadow-lg border border-desert-100 cursor-pointer" onclick="showSection('zonificacion')">
+                <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mb-4">
+                    <i class="fa-solid fa-map-marked-alt text-blue-600 text-xl"></i>
+                </div>
+                <h3 class="text-lg font-bold text-desert-900 mb-2">Zonificación</h3>
+                <p class="text-sm text-slate-600">Usos de suelo, alturas máximas y coeficientes de ocupación.</p>
+            </div>
+            
+            <div class="normativa-card bg-white p-6 rounded-2xl shadow-lg border border-desert-100 cursor-pointer" onclick="showSection('permisos')">
+                <div class="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center mb-4">
+                    <i class="fa-solid fa-file-signature text-green-600 text-xl"></i>
+                </div>
+                <h3 class="text-lg font-bold text-desert-900 mb-2">Permisos</h3>
+                <p class="text-sm text-slate-600">Trámites, requisitos y tiempos para obtener permisos de construcción.</p>
+            </div>
+            
+            <div class="normativa-card bg-white p-6 rounded-2xl shadow-lg border border-desert-100 cursor-pointer" onclick="showSection('estructural')">
+                <div class="w-12 h-12 bg-amber-100 rounded-xl flex items-center justify-center mb-4">
+                    <i class="fa-solid fa-building text-amber-600 text-xl"></i>
+                </div>
+                <h3 class="text-lg font-bold text-desert-900 mb-2">Normas Estructurales</h3>
+                <p class="text-sm text-slate-600">Requisitos de seguridad, materiales y métodos de construcción.</p>
+            </div>
+            
+            <div class="normativa-card bg-white p-6 rounded-2xl shadow-lg border border-desert-100 cursor-pointer" onclick="showSection('ambiental')">
+                <div class="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center mb-4">
+                    <i class="fa-solid fa-leaf text-purple-600 text-xl"></i>
+                </div>
+                <h3 class="text-lg font-bold text-desert-900 mb-2">Normas Ambientales</h3>
+                <p class="text-sm text-slate-600">Impacto ambiental, manejo de residuos y eficiencia energética.</p>
+            </div>
+        </div>
+        
+        <!-- Contenido de Secciones -->
+        <div id="sections-container" class="space-y-8">
+            
+            <!-- Sección de Zonificación -->
+            <section id="zonificacion-section" class="hidden">
+                <div class="bg-white rounded-2xl shadow-lg border border-desert-100 p-6">
+                    <div class="flex justify-between items-center mb-4">
+                        <h2 class="text-2xl font-bold text-desert-900 flex items-center gap-2">
+                            <i class="fa-solid fa-map-marked-alt"></i> Zonificación
+                        </h2>
+                        <button onclick="hideSection('zonificacion')" class="text-slate-400 hover:text-slate-800">
+                            <i class="fa-solid fa-times"></i>
+                        </button>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                        <div class="lg:col-span-2">
+                            <h3 class="text-lg font-bold text-desert-800 mb-4">Clasificación de Zonas en Mexicali</h3>
+                            
+                            <div class="overflow-x-auto">
+                                <table class="w-full text-sm">
+                                    <thead class="bg-desert-100">
+                                        <tr>
+                                            <th class="p-3 text-left">Zona</th>
+                                            <th class="p-3 text-left">Uso Principal</th>
+                                            <th class="p-3 text-left">Altura Máx.</th>
+                                            <th class="p-3 text-left">COS</th>
+                                            <th class="p-3 text-left">CUS</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr class="border-b border-desert-100">
+                                            <td class="p-3">Residencial de Baja Densidad (R1)</td>
+                                            <td class="p-3">Vivienda unifamiliar</td>
+                                            <td class="p-3">8m</td>
+                                            <td class="p-3">0.4</td>
+                                            <td class="p-3">0.6</td>
+                                        </tr>
+                                        <tr class="border-b border-desert-100">
+                                            <td class="p-3">Residencial de Media Densidad (R2)</td>
+                                            <td class="p-3">Vivienda multifamiliar</td>
+                                            <td class="p-3">12m</td>
+                                            <td class="p-3">0.5</td>
+                                            <td class="p-3">0.8</td>
+                                        </tr>
+                                        <tr class="border-b border-desert-100">
+                                            <td class="p-3">Residencial de Alta Densidad (R3)</td>
+                                            <td class="p-3">Departamentos</td>
+                                            <td class="p-3">18m</td>
+                                            <td class="p-3">0.6</td>
+                                            <td class="p-3">1.2</td>
+                                        </tr>
+                                        <tr class="border-b border-desert-100">
+                                            <td class="p-3">Comercial (C)</td>
+                                            <td class="p-3">Comercio, servicios</td>
+                                            <td class="p-3">15m</td>
+                                            <td class="p-3">0.6</td>
+                                            <td class="p-3">1.5</td>
+                                        </tr>
+                                        <tr class="border-b border-desert-100">
+                                            <td class="p-3">Industrial (I)</td>
+                                            <td class="p-3">Industria ligera</td>
+                                            <td class="p-3">12m</td>
+                                            <td class="p-3">0.5</td>
+                                            <td class="p-3">1.0</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="p-3">Mixta (MX)</td>
+                                            <td class="p-3">Combinación de usos</td>
+                                            <td class="p-3">10m</td>
+                                            <td class="p-3">0.5</td>
+                                            <td class="p-3">1.0</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            
+                            <div class="mt-6">
+                                <h4 class="font-bold text-desert-800 mb-2">Definiciones:</h4>
+                                <ul class="list-disc list-inside text-sm text-slate-600 space-y-1">
+                                    <li><strong>COS (Coeficiente de Ocupación del Suelo):</strong> Porcentaje del terreno que puede ser ocupado por construcción.</li>
+                                    <li><strong>CUS (Coeficiente de Utilización del Suelo):</strong> Relación entre el área total de construcción y el área del terreno.</li>
+                                    <li><strong>Retiros:</strong> Distancia mínima que debe mantenerse entre la construcción y los límites del terreno.</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="mt-6 bg-desert-50/50 rounded-xl p-4">
+                                <h4 class="font-bold text-desert-800 mb-2">Retiros Mínimos:</h4>
+                                <div class="grid grid-cols-2 gap-4 text-sm">
+                                    <div>
+                                        <strong>Frente:</strong> 5m (R1), 3m (R2), 2m (R3)
+                                    </div>
+                                    <div>
+                                        <strong>Laterales:</strong> 3m (R1), 2m (R2), 1m (R3)
+                                    </div>
+                                    <div>
+                                        <strong>Fondo:</strong> 5m (R1), 3m (R2), 2m (R3)
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="lg:col-span-1">
+                            <div class="bg-desert-50/50 rounded-xl p-4">
+                                <h4 class="font-bold text-desert-800 mb-3">Documentos Relacionados</h4>
+                                <div class="space-y-2">
+                                    <a href="#" class="flex items-center gap-2 text-sm text-desert-600 hover:text-desert-800 transition">
+                                        <i class="fa-solid fa-file-pdf"></i> Reglamento de Zonificación
+                                    </a>
+                                    <a href="#" class="flex items-center gap-2 text-sm text-desert-600 hover:text-desert-800 transition">
+                                        <i class="fa-solid fa-file-pdf"></i> Plan de Desarrollo Urbano
+                                    </a>
+                                    <a href="#" class="flex items-center gap-2 text-sm text-desert-600 hover:text-desert-800 transition">
+                                        <i class="fa-solid fa-map"></i> Mapa de Zonificación
+                                    </a>
+                                </div>
+                            </div>
+                            
+                            <div class="bg-desert-50/50 rounded-xl p-4 mt-4">
+                                <h4 class="font-bold text-desert-800 mb-3">¿Necesitas ayuda?</h4>
+                                <p class="text-sm text-slate-600 mb-3">
+                                    Si tienes dudas sobre la zonificación de tu terreno, 
+                                    puedes consultar directamente en:
+                                </p>
+                                <div class="space-y-2">
+                                    <div class="flex items-center gap-2 text-sm">
+                                        <i class="fa-solid fa-phone text-desert-600"></i>
+                                        <span>Dirección de Desarrollo Urbano</span>
+                                    </div>
+                                    <div class="flex items-center gap-2 text-sm">
+                                        <i class="fa-solid fa-map-marker-alt text-desert-600"></i>
+                                        <span>Av. López Mateos 1200</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Sección de Permisos -->
+            <section id="permisos-section" class="hidden">
+                <div class="bg-white rounded-2xl shadow-lg border border-desert-100 p-6">
+                    <div class="flex justify-between items-center mb-4">
+                        <h2 class="text-2xl font-bold text-desert-900 flex items-center gap-2">
+                            <i class="fa-solid fa-file-signature"></i> Permisos de Construcción
+                        </h2>
+                        <button onclick="hideSection('permisos')" class="text-slate-400 hover:text-slate-800">
+                            <i class="fa-solid fa-times"></i>
+                        </button>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                        <div class="lg:col-span-2">
+                            <h3 class="text-lg font-bold text-desert-800 mb-4">Tipos de Permisos</h3>
+                            
+                            <div class="space-y-6">
+                                <div class="bg-desert-50/50 rounded-xl p-4">
+                                    <h4 class="font-bold text-desert-800 mb-2">1. Permiso de Construcción Nueva</h4>
+                                    <p class="text-sm text-slate-600 mb-2">
+                                        Requerido para construir una nueva edificación en un terreno.
+                                    </p>
+                                    <div class="text-sm">
+                                        <strong>Requisitos:</strong>
+                                        <ul class="list-disc list-inside ml-4 mt-1 space-y-1">
+                                            <li>Escrituras del terreno</li>
+                                            <li>Planos arquitectónicos firmados por profesional</li>
+                                            <li>Estudio de impacto ambiental (si aplica)</li>
+                                            <li>Pago de derechos</li>
+                                        </ul>
+                                    </div>
+                                    <div class="text-sm mt-2">
+                                        <strong>Tiempo estimado:</strong> 15-30 días hábiles
+                                    </div>
+                                </div>
+                                
+                                <div class="bg-desert-50/50 rounded-xl p-4">
+                                    <h4 class="font-bold text-desert-800 mb-2">2. Permiso de Ampliación</h4>
+                                    <p class="text-sm text-slate-600 mb-2">
+                                        Para ampliar una construcción existente.
+                                    </p>
+                                    <div class="text-sm">
+                                        <strong>Requisitos:</strong>
+                                        <ul class="list-disc list-inside ml-4 mt-1 space-y-1">
+                                            <li>Permiso de construcción original</li>
+                                            <li>Planos de ampliación</li>
+                                            <li>Certificado de no adeudo predial</li>
+                                        </ul>
+                                    </div>
+                                    <div class="text-sm mt-2">
+                                        <strong>Tiempo estimado:</strong> 10-20 días hábiles
+                                    </div>
+                                </div>
+                                
+                                <div class="bg-desert-50/50 rounded-xl p-4">
+                                    <h4 class="font-bold text-desert-800 mb-2">3. Permiso de Remodelación</h4>
+                                    <p class="text-sm text-slate-600 mb-2">
+                                        Para modificaciones estructurales en una construcción existente.
+                                    </p>
+                                    <div class="text-sm">
+                                        <strong>Requisitos:</strong>
+                                        <ul class="list-disc list-inside ml-4 mt-1 space-y-1">
+                                            <li>Planos de remodelación</li>
+                                            <li>Dictamen estructural (si aplica)</li>
+                                            <li>Avalúo catastral</li>
+                                        </ul>
+                                    </div>
+                                    <div class="text-sm mt-2">
+                                        <strong>Tiempo estimado:</strong> 10-15 días hábiles
+                                    </div>
+                                </div>
+                                
+                                <div class="bg-desert-50/50 rounded-xl p-4">
+                                    <h4 class="font-bold text-desert-800 mb-2">4. Permiso de Demolición</h4>
+                                    <p class="text-sm text-slate-600 mb-2">
+                                        Para demoler una construcción existente.
+                                    </p>
+                                    <div class="text-sm">
+                                        <strong>Requisitos:</strong>
+                                        <ul class="list-disc list-inside ml-4 mt-1 space-y-1">
+                                            <li>Solicitud por escrito</li>
+                                            <li>Certificado de no adeudo</li>
+                                            <li>Plan de manejo de escombros</li>
+                                        </ul>
+                                    </div>
+                                    <div class="text-sm mt-2">
+                                        <strong>Tiempo estimado:</strong> 5-10 días hábiles
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="lg:col-span-1">
+                            <div class="bg-desert-50/50 rounded-xl p-4">
+                                <h4 class="font-bold text-desert-800 mb-3">Costos de Permisos (2024)</h4>
+                                <div class="space-y-3 text-sm">
+                                    <div class="flex justify-between">
+                                        <span>Construcción nueva:</span>
+                                        <span>$2,500 - $10,000</span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span>Ampliación:</span>
+                                        <span>$1,500 - $5,000</span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span>Remodelación:</span>
+                                        <span>$1,000 - $3,000</span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span>Demolición:</span>
+                                        <span>$500 - $2,000</span>
+                                    </div>
+                                </div>
+                                <p class="text-xs text-slate-500 mt-3">
+                                    *Los costos varían según el tamaño y tipo de construcción.
+                                </p>
+                            </div>
+                            
+                            <div class="bg-desert-50/50 rounded-xl p-4 mt-4">
+                                <h4 class="font-bold text-desert-800 mb-3">Proceso de Trámite</h4>
+                                <div class="space-y-3">
+                                    <div class="flex items-start gap-3">
+                                        <div class="w-6 h-6 bg-desert-800 text-white rounded-full flex items-center justify-center text-xs font-bold">1</div>
+                                        <div class="text-sm">
+                                            <strong>Presentación de documentos</strong><br>
+                                            <span class="text-slate-600">En ventanilla de Desarrollo Urbano</span>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start gap-3">
+                                        <div class="w-6 h-6 bg-desert-800 text-white rounded-full flex items-center justify-center text-xs font-bold">2</div>
+                                        <div class="text-sm">
+                                            <strong>Revisión técnica</strong><br>
+                                            <span class="text-slate-600">Por parte de la dirección</span>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start gap-3">
+                                        <div class="w-6 h-6 bg-desert-800 text-white rounded-full flex items-center justify-center text-xs font-bold">3</div>
+                                        <div class="text-sm">
+                                            <strong>Pago de derechos</strong><br>
+                                            <span class="text-slate-600">En tesorería municipal</span>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start gap-3">
+                                        <div class="w-6 h-6 bg-desert-800 text-white rounded-full flex items-center justify-center text-xs font-bold">4</div>
+                                        <div class="text-sm">
+                                            <strong>Emisión de permiso</strong><br>
+                                            <span class="text-slate-600">Recogida en ventanilla</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Sección de Normas Estructurales -->
+            <section id="estructural-section" class="hidden">
+                <div class="bg-white rounded-2xl shadow-lg border border-desert-100 p-6">
+                    <div class="flex justify-between items-center mb-4">
+                        <h2 class="text-2xl font-bold text-desert-900 flex items-center gap-2">
+                            <i class="fa-solid fa-building"></i> Normas Estructurales
+                        </h2>
+                        <button onclick="hideSection('estructural')" class="text-slate-400 hover:text-slate-800">
+                            <i class="fa-solid fa-times"></i>
+                        </button>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                        <div class="lg:col-span-2">
+                            <h3 class="text-lg font-bold text-desert-800 mb-4">Requisitos de Seguridad Estructural</h3>
+                            
+                            <div class="bg-desert-50/50 rounded-xl p-4 mb-6">
+                                <h4 class="font-bold text-desert-800 mb-3">Normas de Cimentación</h4>
+                                <p class="text-sm text-slate-600 mb-3">
+                                    En Mexicali, debido a las características del suelo (arcilloso con capas de arena), 
+                                    se requieren cimentaciones especiales:
+                                </p>
+                                <ul class="list-disc list-inside text-sm text-slate-600 space-y-1">
+                                    <li><strong>Profundidad mínima:</strong> 80 cm para evitar grietas por expansión/contracción del suelo</li>
+                                    <li><strong>Tipo recomendado:</strong> Zapatas corridas o losa de cimentación</li>
+                                    <li><strong>Resistencia del concreto:</strong> f'c = 250 kg/cm² mínimo</li>
+                                    <li><strong>Acero de refuerzo:</strong> Varillas de 3/8" a 1/2" según cálculo estructural</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="bg-desert-50/50 rounded-xl p-4 mb-6">
+                                <h4 class="font-bold text-desert-800 mb-3">Normas de Muros</h4>
+                                <p class="text-sm text-slate-600 mb-3">
+                                    Requisitos para muros de carga y divisorios:
+                                </p>
+                                <div class="overflow-x-auto">
+                                    <table class="w-full text-sm">
+                                        <thead class="bg-desert-100">
+                                            <tr>
+                                                <th class="p-2 text-left">Tipo de Muro</th>
+                                                <th class="p-2 text-left">Espesor Mínimo</th>
+                                                <th class="p-2 text-left">Altura Máx.</th>
+                                                <th class="p-2 text-left">Material</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr class="border-b border-desert-100">
+                                                <td class="p-2">Muro de carga</td>
+                                                <td class="p-2">20 cm</td>
+                                                <td class="p-2">3.5 m</td>
+                                                <td class="p-2">Block, Hebel</td>
+                                            </tr>
+                                            <tr class="border-b border-desert-100">
+                                                <td class="p-2">Muro divisor</td>
+                                                <td class="p-2">15 cm</td>
+                                                <td class="p-2">3.0 m</td>
+                                                <td class="p-2">Block, Tabique</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="p-2">Muro de contención</td>
+                                                <td class="p-2">30 cm</td>
+                                                <td class="p-2">2.0 m</td>
+                                                <td class="p-2">Concreto armado</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            
+                            <div class="bg-desert-50/50 rounded-xl p-4 mb-6">
+                                <h4 class="font-bold text-desert-800 mb-3">Normas de Techos</h4>
+                                <p class="text-sm text-slate-600 mb-3">
+                                    Requisitos para techos en clima desértico:
+                                </p>
+                                <ul class="list-disc list-inside text-sm text-slate-600 space-y-1">
+                                    <li><strong>Aislamiento térmico:</strong> Mínimo R-10 para techos planos</li>
+                                    <li><strong>Pendiente:</strong> Mínimo 5% para techos de concreto, 15% para techos de teja</li>
+                                    <li><strong>Material:</strong> Losa de concreto con aislamiento o estructura metálica con panel sándwich</li>
+                                    <li><strong>Impermeabilización:</strong> Obligatoria en techos planos</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="bg-desert-50/50 rounded-xl p-4">
+                                <h4 class="font-bold text-desert-800 mb-3">Normas Sísmicas</h4>
+                                <p class="text-sm text-slate-600 mb-3">
+                                    Mexicali se encuentra en zona sísmica, por lo que se aplican normas especiales:
+                                </p>
+                                <ul class="list-disc list-inside text-sm text-slate-600 space-y-1">
+                                    <li><strong>Factor de zona:</strong> 0.4 (Zona D según NTC-2017)</li>
+                                    <li><strong>Sistema estructural:</strong> Debe ser capaz de resistir fuerzas sísmicas</li>
+                                    <li><strong>Detalles de refuerzo:</strong> Según normas NTC-2017</li>
+                                    <li><strong>Juntas sísmicas:</strong> Obligatorias en construcciones adyacentes</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="lg:col-span-1">
+                            <div class="bg-desert-50/50 rounded-xl p-4">
+                                <h4 class="font-bold text-desert-800 mb-3">Normativas Aplicables</h4>
+                                <div class="space-y-3">
+                                    <div class="flex items-start gap-3">
+                                        <i class="fa-solid fa-file-contract text-desert-600 mt-1"></i>
+                                        <div class="text-sm">
+                                            <strong>NTC-2017</strong><br>
+                                            <span class="text-slate-600">Normas Técnicas Complementarias para Diseño y Construcción de Estructuras de Concreto</span>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start gap-3">
+                                        <i class="fa-solid fa-file-contract text-desert-600 mt-1"></i>
+                                        <div class="text-sm">
+                                            <strong>NTC-2018</strong><br>
+                                            <span class="text-slate-600">Normas Técnicas Complementarias para Diseño por Sismo</span>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start gap-3">
+                                        <i class="fa-solid fa-file-contract text-desert-600 mt-1"></i>
+                                        <div class="text-sm">
+                                            <strong>Reglamento de Construcciones para el Municipio de Mexicali</strong><br>
+                                            <span class="text-slate-600">Normativa local específica</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="bg-desert-50/50 rounded-xl p-4 mt-4">
+                                <h4 class="font-bold text-desert-800 mb-3">Recomendaciones para Clima Desértico</h4>
+                                <ul class="list-disc list-inside text-sm text-slate-600 space-y-2">
+                                    <li>Usar materiales con alta capacidad térmica (Hebel, block de concreto)</li>
+                                    <li>Incluir aislamiento térmico en paredes y techos</li>
+                                    <li>Diseñar con orientación norte-sur para maximizar ventilación</li>
+                                    <li>Incorporar elementos de sombra (aleros, pérgolas)</li>
+                                    <li>Usar colores claros en exteriores para reflejar el calor</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Sección de Normas Ambientales -->
+            <section id="ambiental-section" class="hidden">
+                <div class="bg-white rounded-2xl shadow-lg border border-desert-100 p-6">
+                    <div class="flex justify-between items-center mb-4">
+                        <h2 class="text-2xl font-bold text-desert-900 flex items-center gap-2">
+                            <i class="fa-solid fa-leaf"></i> Normas Ambientales
+                        </h2>
+                        <button onclick="hideSection('ambiental')" class="text-slate-400 hover:text-slate-800">
+                            <i class="fa-solid fa-times"></i>
+                        </button>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                        <div class="lg:col-span-2">
+                            <h3 class="text-lg font-bold text-desert-800 mb-4">Protección Ambiental en Construcción</h3>
+                            
+                            <div class="bg-desert-50/50 rounded-xl p-4 mb-6">
+                                <h4 class="font-bold text-desert-800 mb-3">Manejo de Residuos</h4>
+                                <p class="text-sm text-slate-600 mb-3">
+                                    Normativas para el manejo adecuado de residuos de construcción:
+                                </p>
+                                <ul class="list-disc list-inside text-sm text-slate-600 space-y-1">
+                                    <li><strong>Clasificación:</strong> Separar residuos por tipo (escombros, metales, plásticos, etc.)</li>
+                                    <li><strong>Almacenamiento:</strong> Contenedores cerrados y señalizados</li>
+                                    <li><strong>Transporte:</strong> Vehículos autorizados con manifestación de residuos</li>
+                                    <li><strong>Disposición final:</strong> Solo en sitios autorizados (tiraderos municipales)</li>
+                                </ul>
+                                <p class="text-sm text-slate-600 mt-3">
+                                    <strong>Multas:</strong> Hasta $50,000 MXN por disposición inadecuada de residuos.
+                                </p>
+                            </div>
+                            
+                            <div class="bg-desert-50/50 rounded-xl p-4 mb-6">
+                                <h4 class="font-bold text-desert-800 mb-3">Eficiencia Energética</h4>
+                                <p class="text-sm text-slate-600 mb-3">
+                                    Requisitos para reducir el consumo energético en construcciones:
+                                </p>
+                                <ul class="list-disc list-inside text-sm text-slate-600 space-y-1">
+                                    <li><strong>Aislamiento:</strong> Mínimo R-10 en techos, R-5 en paredes</li>
+                                    <li><strong>Ventanas:</strong> Vidrio bajo emisivo (Low-E) con factor solar ≤ 0.4</li>
+                                    <li><strong>Sombreados:</strong> Elementos de sombra en al menos 50% de ventanas</li>
+                                    <li><strong>Ventilación natural:</strong> Diseño que permita flujo de aire cruzado</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="bg-desert-50/50 rounded-xl p-4 mb-6">
+                                <h4 class="font-bold text-desert-800 mb-3">Uso de Agua</h4>
+                                <p class="text-sm text-slate-600 mb-3">
+                                    Normativas para el uso eficiente del agua en construcciones:
+                                </p>
+                                <ul class="list-disc list-inside text-sm text-slate-600 space-y-1">
+                                    <li><strong>Sistemas de riego:</strong> Solo sistemas de alta eficiencia (goteo, microaspersión)</li>
+                                    <li><strong>Plantas nativas:</strong> Uso de especies resistentes a la sequía</li>
+                                    <li><strong>Captación de agua pluvial:</strong> Obligatoria en construcciones nuevas > 200m²</li>
+                                    <li><strong>Tratamiento de aguas grises:</strong> Recomendado para riego de áreas verdes</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="bg-desert-50/50 rounded-xl p-4">
+                                <h4 class="font-bold text-desert-800 mb-3">Impacto Ambiental</h4>
+                                <p class="text-sm text-slate-600 mb-3">
+                                    Para construcciones mayores a 500m² o en zonas sensibles:
+                                </p>
+                                <ul class="list-disc list-inside text-sm text-slate-600 space-y-1">
+                                    <li><strong>Manifestación de Impacto Ambiental (MIA):</strong> Requerida para proyectos medianos</li>
+                                    <li><strong>Estudio de Impacto Ambiental (EIA):</strong> Requerido para proyectos grandes</li>
+                                    <li><strong>Evaluación de riesgo:</strong> En zonas con riesgo de inundación o contaminación</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="lg:col-span-1">
+                            <div class="bg-desert-50/50 rounded-xl p-4">
+                                <h4 class="font-bold text-desert-800 mb-3">Multas y Sanciones</h4>
+                                <div class="space-y-4 text-sm">
+                                    <div>
+                                        <strong>Disposición inadecuada de residuos:</strong><br>
+                                        <span class="text-slate-600">$10,000 - $50,000 MXN</span>
+                                    </div>
+                                    <div>
+                                        <strong>Incumplimiento de normas de eficiencia:</strong><br>
+                                        <span class="text-slate-600">$5,000 - $20,000 MXN</span>
+                                    </div>
+                                    <div>
+                                        <strong>Construcción sin permiso ambiental:</strong><br>
+                                        <span class="text-slate-600">$20,000 - $100,000 MXN</span>
+                                    </div>
+                                    <div>
+                                        <strong>Daño a áreas protegidas:</strong><br>
+                                        <span class="text-slate-600">Hasta $500,000 MXN + clausura</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="bg-desert-50/50 rounded-xl p-4 mt-4">
+                                <h4 class="font-bold text-desert-800 mb-3">Incentivos</h4>
+                                <p class="text-sm text-slate-600 mb-3">
+                                    Beneficios para construcciones sostenibles:
+                                </p>
+                                <ul class="list-disc list-inside text-sm text-slate-600 space-y-1">
+                                    <li><strong>Descuentos en predial:</strong> Hasta 20% para construcciones con certificación verde</li>
+                                    <li><strong>Exención de permisos:</strong> Para mejoras de eficiencia energética</li>
+                                    <li><strong>Financiamiento preferencial:</strong> En bancos participantes</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="bg-desert-50/50 rounded-xl p-4 mt-4">
+                                <h4 class="font-bold text-desert-800 mb-3">Enlaces Útiles</h4>
+                                <div class="space-y-2">
+                                    <a href="#" class="flex items-center gap-2 text-sm text-desert-600 hover:text-desert-800 transition">
+                                        <i class="fa-solid fa-globe"></i> SEMARNAT
+                                    </a>
+                                    <a href="#" class="flex items-center gap-2 text-sm text-desert-600 hover:text-desert-800 transition">
+                                        <i class="fa-solid fa-globe"></i> PROFEPA
+                                    </a>
+                                    <a href="#" class="flex items-center gap-2 text-sm text-desert-600 hover:text-desert-800 transition">
+                                        <i class="fa-solid fa-globe"></i> CONAGUA
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+    
+    <!-- Footer -->
+    <footer class="bg-desert-900 text-white py-8 px-4 mt-12">
+        <div class="max-w-6xl mx-auto text-center">
+            <p class="text-desert-300 text-sm">
+                © 2024 MexicaliBuilder. La información proporcionada es de carácter general y no sustituye 
+                la asesoría profesional. Consulta siempre con las autoridades locales para obtener 
+                información actualizada y específica para tu proyecto.
+            </p>
+        </div>
+    </footer>
+    
+    <script>
+        function showSection(section) {
+            // Ocultar todas las secciones
+            document.querySelectorAll('[id$="-section"]').forEach(s => s.classList.add('hidden'));
+            
+            // Mostrar la sección seleccionada
+            const sectionToShow = document.getElementById(section + '-section');
+            if (sectionToShow) {
+                sectionToShow.classList.remove('hidden');
+                
+                // Desplazar a la sección
+                sectionToShow.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }
+        
+        function hideSection(section) {
+            const sectionToHide = document.getElementById(section + '-section');
+            if (sectionToHide) {
+                sectionToHide.classList.add('hidden');
+            }
+        }
+    </script>
+</body>
+</html>

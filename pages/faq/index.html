@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Preguntas Frecuentes - Mexicali Builder</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../../css/styles.css">
+    
+    <style>
+        .faq-item {
+            transition: all 0.3s;
+        }
+        .faq-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+        .faq-content.open {
+            max-height: 500px;
+        }
+        .faq-icon {
+            transition: transform 0.3s;
+        }
+        .faq-icon.open {
+            transform: rotate(180deg);
+        }
+    </style>
+</head>
+<body class="bg-desert-50 text-slate-800">
+    
+    <!-- Header -->
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <i class="fa-solid fa-question-circle text-desert-800 text-2xl"></i>
+                <div>
+                    <h1 class="text-xl font-bold text-desert-900">Preguntas Frecuentes</h1>
+                    <p class="text-sm text-desert-500">Mexicali Builder</p>
+                </div>
+            </div>
+            <a href="../../index.html" class="bg-desert-800 text-white px-4 py-2 rounded-lg text-sm hover:bg-desert-900 transition">
+                <i class="fa-solid fa-arrow-left"></i> Regresar
+            </a>
+        </div>
+    </header>
+    
+    <!-- Main Content -->
+    <main class="max-w-4xl mx-auto px-4 py-8">
+        
+        <!-- Hero Section -->
+        <section class="text-center mb-12">
+            <span class="inline-block bg-desert-100 text-desert-800 px-4 py-2 rounded-full text-sm font-medium mb-4">
+                <i class="fa-solid fa-question-circle mr-1"></i> FAQ
+            </span>
+            <h1 class="text-3xl md:text-4xl font-bold text-desert-900 mb-4">
+                Respuestas a tus Preguntas
+            </h1>
+            <p class="text-lg text-slate-600 max-w-3xl mx-auto">
+                Encuentra respuestas a las preguntas más comunes sobre construcción en clima desértico, 
+                el uso de nuestra plataforma y temas relacionados.
+            </p>
+        </section>
+        
+        <!-- Buscador -->
+        <div class="mb-8">
+            <div class="relative max-w-md mx-auto">
+                <input type="text" id="faq-search" placeholder="Buscar preguntas..." 
+                       class="w-full pl-4 pr-12 py-3 rounded-xl border border-desert-200 focus:ring-2 focus:ring-desert-500 outline-none">
+                <button class="absolute right-2 top-1.5 bg-desert-800 text-white p-2 rounded-lg hover:bg-desert-600 transition">
+                    <i class="fa-solid fa-search"></i>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Categorías -->
+        <div class="flex flex-wrap justify-center gap-2 mb-8">
+            <button class="px-4 py-2 bg-desert-800 text-white rounded-lg text-sm font-medium" onclick="filterFAQ('todos')">
+                Todas
+            </button>
+            <button class="px-4 py-2 bg-desert-200 text-desert-800 rounded-lg text-sm font-medium hover:bg-desert-300" onclick="filterFAQ('plataforma')">
+                Plataforma
+            </button>
+            <button class="px-4 py-2 bg-desert-200 text-desert-800 rounded-lg text-sm font-medium hover:bg-desert-300" onclick="filterFAQ('construccion')">
+                Construcción
+            </button>
+            <button class="px-4 py-2 bg-desert-200 text-desert-800 rounded-lg text-sm font-medium hover:bg-desert-300" onclick="filterFAQ('materiales')">
+                Materiales
+            </button>
+            <button class="px-4 py-2 bg-desert-200 text-desert-800 rounded-lg text-sm font-medium hover:bg-desert-300" onclick="filterFAQ('diseño')">
+                Diseño
+            </button>
+            <button class="px-4 py-2 bg-desert-200 text-desert-800 rounded-lg text-sm font-medium hover:bg-desert-300" onclick="filterFAQ('clima')">
+                Clima Desértico
+            </button>
+        </div>
+        
+        <!-- Lista de FAQ -->
+        <div id="faq-container" class="space-y-4">
+            
+            <!-- Plataforma -->
+            <div class="faq-item bg-white rounded-xl shadow-lg border border-desert-100 overflow-hidden" data-category="plataforma">
+                <button class="faq-question w-full p-4 text-left flex justify-between items-center hover:bg-desert-50 transition" onclick="toggleFAQ(this)">
+                    <span class="font-medium text-desert-900">¿Cómo empiezo a usar Mexicali Builder?</span>
+                    <i class="fa-solid fa-chevron-down faq-icon text-desert-600"></i>
+                </button>
+                <div class="faq-content px-4 pb-4">
+                    <p class="text-slate-600">
+                        Para empezar, simplemente abre el <a href="../../index.html" class="text-desert-800 font-medium hover:underline">index.html</a> en tu navegador. 
+                        No necesitas instalar nada. Puedes comenzar a usar el editor 3D de inmediato o explorar el Laboratorio de IA 
+                        para analizar tus diseños.
+                    </p>
+                </div>
+            </div>
+            
+            <div class="faq-item bg-white rounded-xl shadow-lg border border-desert-100 overflow-hidden" data-category="plataforma">
+                <button class="faq-question w-full p-4 text-left flex justify-between items-center hover:bg-desert-50 transition" onclick="toggleFAQ(this)">
+                    <span class="font-medium text-desert-900">¿Necesito registrarme para usar la plataforma?</span>
+                    <i class="fa-solid fa-chevron-down faq-icon text-desert-600"></i>
+                </button>
+                <div class="faq-content px-4 pb-4">
+                    <p class="text-slate-600">
+                        No, Mexicali Builder es completamente gratuito y no requiere registro. Todos los diseños se guardan 
+                        localmente en tu navegador. Sin embargo, si deseas usar las capacidades avanzadas de IA, 
+                        necesitarás configurar tus propias API keys de los proveedores de IA.
+                    </p>
+                </div>
+            </div>
+            
+            <div class="faq-item bg-white rounded-xl shadow-lg border border-desert-100 overflow-hidden" data-category="plataforma">
+                <button class="faq-question w-full p-4 text-left flex justify-between items-center hover:bg-desert-50 transition" onclick="toggleFAQ(this)">
+                    <span class="font-medium text-desert-900">¿Cómo configuro las APIs de IA?</span>
+                    <i class="fa-solid fa-chevron-down faq-icon text-desert-600"></i>
+                </button>
+                <div class="faq-content px-4 pb-4">
+                    <p class="text-slate-600">
+                        Para configurar las APIs de IA, edita el archivo <code class="bg-desert-100 px-2 py-1 rounded">js/ai-capabilities.js</code> 
+                        y reemplaza los placeholders de API keys con tus propias credenciales de:
+                    </p>
+                    <ul class="list-disc list-inside text-slate-600 mt-3 space-y-1">
+                        <li><strong>Groq:</strong> Para análisis de texto y respuestas de IA (<a href="https://groq.com/" class="text-desert-800 hover:underline">groq.com</a>)</li>
+                        <li><strong>Hugging Face:</strong> Para análisis de imágenes (<a href="https://huggingface.co/" class="text-desert-800 hover:underline">huggingface.co</a>)</li>
+                        <li><strong>ElevenLabs:</strong> Para generación de voz (<a href="https://elevenlabs.io/" class="text-desert-800 hover:underline">elevenlabs.io</a>)</li>
+                        <li><strong>Stability AI:</strong> Para generación de imágenes (<a href="https://stability.ai/" class="text-desert-800 hover:underline">stability.ai</a>)</li>
+                    </ul>
+                    <p class="text-slate-600 mt-3">
+                        Todas estas plataformas ofrecen tiers gratuitos generosos.
+                    </p>
+                </div>
+            </div>
+            
+            <div class="faq-item bg-white rounded-xl shadow-lg border border-desert-100 overflow-hidden" data-category="plataforma">
+                <button class="faq-question w-full p-4 text-left flex justify-between items-center hover:bg-desert-50 transition" onclick="toggleFAQ(this)">
+                    <span class="font-medium text-desert-900">¿Puedo guardar mis diseños?</span>
+                    <i class="fa-solid fa-chevron-down faq-icon text-desert-600"></i>
+                </button>
+                <div class="faq-content px-4 pb-4">
+                    <p class="text-slate-600">
+                        Sí, tus diseños se guardan automáticamente en el almacenamiento local de tu navegador. 
+                        También puedes exportarlos en varios formatos:
+                    </p>
+                    <ul class="list-disc list-inside text-slate-600 mt-3 space-y-1">
+                        <li><strong>JSON:</strong> Para guardar y cargar después</li>
+                        <li><strong>SVG:</strong> Para vista en planta</li>
+                        <li><strong>PNG:</strong> Como imagen</li>
+                        <li><strong>OBJ/GLTF:</strong> Para usar en otros programas 3D</li>
+                    </ul>
+                    <p class="text-slate-600 mt-3">
+                        Los diseños guardados localmente persisten incluso después de cerrar el navegador.
+                    </p>
+                </div>
+            </div>
+            
+            <div class="faq-item bg-white rounded-xl shadow-lg border border-desert-100 overflow-hidden" data-category="plataforma">
+                <button class="faq-question w-full p-4 text-left flex justify-between items-center hover:bg-desert-50 transition" onclick="toggleFAQ(this)">
+                    <span class="font-medium text-desert-900">¿Funciona en móviles y tablets?</span>
+                    <i class="fa-solid fa-chevron-down faq-icon text-desert-600"></i>
+                </button>
+                <div class="faq-content px-4 pb-4">
+                    <p class="text-slate-600">
+                        Sí, Mexicali Builder está diseñado para ser completamente responsive y funciona en 
+                        dispositivos móviles y tablets. Sin embargo, para la mejor experiencia, recomendamos 
+                        usar una computadora con mouse para el editor 3D, ya que algunas funciones de dibujo 
+                        pueden ser más difíciles de usar en pantallas táctiles.
+                    </p>
+                </div>
+            </div>
+            
+            <!-- Construcción -->
+            <div class="faq-item bg-white rounded-xl shadow-lg border border-desert-100 overflow-hidden" data-category="construccion">
+                <button class="faq-question w-full p-4 text-left flex justify-between items-center hover:bg-desert-50 transition" onclick="toggleFAQ(this)">
+                    <span class="font-medium text-desert-900">¿Cuál es el costo aproximado de construir una casa de 200m² en Mexicali?</span>
+                    <i class="fa-solid fa-chevron-down faq-icon text-desert-600"></i>
+                </button>
+                <div class="faq-content px-4 pb-4">
+                    <p class="text-slate-600">
+                        El costo de construcción en Mexicali varía según los materiales y acabados, pero en general:
+                    </p>
+                    <div class="overflow-x-auto mt-3">
+                        <table class="w-full text-sm">
+                            <thead class="bg-desert-100">
+                                <tr>
+                                    <th class="p-2 text-left">Tipo de Construcción</th>
+                                    <th class="p-2 text-left">Costo por m²</th>
+                                    <th class="p-2 text-left">Costo Total (200m²)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="border-b border-desert-100">
+                                    <td class="p-2">Económica</td>
+                                    <td class="p-2">$6,000 - $8,000 MXN</td>
+                                    <td class="p-2">$1,200,000 - $1,600,000 MXN</td>
+                                </tr>
+                                <tr class="border-b border-desert-100">
+                                    <td class="p-2">Media</td>
+                                    <td class="p-2">$8,000 - $12,000 MXN</td>
+                                    <td class="p-2">$1,600,000 - $2,400,000 MXN</td>
+                                </tr>
+                                <tr class="border-b border-desert-100">
+                                    <td class="p-2">Alta (Lujo)</td>
+                                    <td class="p-2">$12,000 - $20,000+ MXN</td>
+                                    <td class="p-2">$2,400,000 - $4,000,000+ MXN</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <p class="text-slate-600 mt-3">
+                        <strong>Nota:</strong> Estos costos son aproximados y pueden variar según el diseño, materiales 
+                        específicos y condiciones del terreno.
+                    </p>
+                </div>
+            </div>
+            
+            <div class="faq-item bg-white rounded-xl shadow-lg border border-desert-100 overflow-hidden" data-category="construccion">
+                <button class="faq-question w-full p-4 text-left flex justify-between items-center hover:bg-desert-50 transition" onclick="toggleFAQ(this)">
+                    <span class="font-medium text-desert-900">¿Cuánto tiempo tarda construir una casa de 200m²?</span>
+                    <i class="fa-solid fa-chevron-down faq-icon text-desert-600"></i>
+                </button>
+                <div class="faq-content px-4 pb-4">
+                    <p class="text-slate-600">
+                        El tiempo de construcción depende de varios factores, pero en promedio:
+                    </p>
+                    <div class="overflow-x-auto mt-3">
+                        <table class="w-full text-sm">
+                            <thead class="bg-desert-100">
+                                <tr>
+                                    <th class="p-2 text-left">Fase</th>
+                                    <th class="p-2 text-left">Duración</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="border-b border-desert-100">
+                                    <td class="p-2">Preparación del terreno</td>
+                                    <td class="p-2">2 semanas</td>
+                                </tr>
+                                <tr class="border-b border-desert-100">
+                                    <td class="p-2">Cimentación</td>
+                                    <td class="p-2">3 semanas</td>
+                                </tr>
+                                <tr class="border-b border-desert-100">
+                                    <td class="p-2">Estructura (muros, techos)</td>
+                                    <td class="p-2">6-8 semanas</td>
+                                </tr>
+                                <tr class="border-b border-desert-100">
+                                    <td class="p-2">Instalaciones (eléctrica, hidráulica)</td>
+                                    <td class="p-2">4 semanas</td>
+                                </tr>
+                                <tr class="border-b border-desert-100">
+                                    <td class="p-2">Acabados</td>
+                                    <td class="p-2">4-6 semanas</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-2"><strong>Total</strong></td>
+                                    <td class="p-2"><strong>19-23 semanas (4.5-5.5 meses)</strong></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="faq-item bg-white rounded-xl shadow-lg border border-desert-100 overflow-hidden" data-category="construccion">
+                <button class="faq-question w-full p-4 text-left flex justify-between items-center hover:bg-desert-50 transition" onclick="toggleFAQ(this)">
+                    <span class="font-medium text-desert-900">¿Qué permisos necesito para construir en Mexicali?</span>
+                    <i class="fa-solid fa-chevron-down faq-icon text-desert-600"></i>
+                </button>
+                <div class="faq-content px-4 pb-4">
+                    <p class="text-slate-600">
+                        Los permisos requeridos dependen del tipo de construcción, pero en general necesitas:
+                    </p>
+                    <ol class="list-decimal list-inside text-slate-600 mt-3 space-y-2">
+                        <li><strong>Permiso de construcción:</strong> Para cualquier obra nueva, ampliación o remodelación estructural</li>
+                        <li><strong>Permiso de uso de suelo:</strong> Para verificar que el uso del terreno es compatible</li>
+                        <li><strong>Alineamiento y número oficial:</strong> Para verificar los límites del terreno</li>
+                        <li><strong>Dictamen de impacto ambiental:</strong> Para proyectos grandes o en zonas sensibles</li>
+                        <li><strong>Permiso de conexión a servicios:</strong> Para agua, drenaje y electricidad</li>
+                    </ol>
+                    <p class="text-slate-600 mt-3">
+                        Puedes consultar más detalles en nuestra <a href="../normativas/" class="text-desert-800 font-medium hover:underline">página de normativas</a>.
+                    </p>
+                </div>
+            </div>
+            
+            <div class="faq-item bg-white rounded-xl shadow-lg border border-desert-100 overflow-hidden" data-category="construccion">
+                <button class="faq-question w-full p-4 text-left flex justify-between items-center hover:bg-desert-50 transition" onclick="toggleFAQ(this)">
+                    <span class="font-medium text-desert-900">¿Qué tipo de cimentación es mejor para Mexicali?</span>
+                    <i class="fa-solid fa-chevron-down faq-icon text-desert-600"></i>
+                </button>
+                <div class="faq-content px-4 pb-4">
+                    <p class="text-slate-600">
+                        En Mexicali, debido a las características del suelo (arcilloso con capas de arena y alta 
+                        temperatura), se recomiendan los siguientes tipos de cimentación:
+                    </p>
+                    <ul class="list-disc list-inside text-slate-600 mt-3 space-y-2">
+                        <li><strong>Zapatas corridas:</strong> Para construcciones de 1-2 plantas, profundidad mínima de 80cm</li>
+                        <li><strong>Losa de cimentación:</strong> Para terrenos con problemas de expansión, ideal para casas de una planta</li>
+                        <li><strong>Pilotes:</strong> Para terrenos con baja capacidad de carga o en zonas inundables</li>
+                    </ul>
+                    <p class="text-slate-600 mt-3">
+                        <strong>Recomendación:</strong> Siempre realiza un estudio de suelo antes de decidir el tipo de cimentación.
+                    </p>
+                </div>
+            </div>
+            
+            <!-- Materiales -->
+            <div class="faq-item bg-white rounded-xl shadow-lg border border-desert-100 overflow-hidden" data-category="materiales">
+                <button class="faq-question w-full p-4 text-left flex justify-between items-center hover:bg-desert-50 transition" onclick="toggleFAQ(this)">
+                    <span class="font-medium text-desert-900">¿Qué materiales son mejores para clima desértico?</span>
+                    <i class="fa-solid fa-chevron-down faq-icon text-desert-600"></i>
+                </button>
+                <div class="faq-content px-4 pb-4">
+                    <p class="text-slate-600">
+                        Para clima desértico como el de Mexicali, se recomiendan materiales con alta capacidad 
+                        térmica y resistencia al calor:
+                    </p>
+                    <div class="overflow-x-auto mt-3">
+                        <table class="w-full text-sm">
+                            <thead class="bg-desert-100">
+                                <tr>
+                                    <th class="p-2 text-left">Material</th>
+                                    <th class="p-2 text-left">Ventajas</th>
+                                    <th class="p-2 text-left">Desventajas</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="border-b border-desert-100">
+                                    <td class="p-2">Hebel</td>
+                                    <td class="p-2">Aislamiento térmico, ligero, fácil de instalar</td>
+                                    <td class="p-2">Más caro que block común</td>
+                                </tr>
+                                <tr class="border-b border-desert-100">
+                                    <td class="p-2">Block de concreto</td>
+                                    <td class="p-2">Resistente, económico, buena inercia térmica</td>
+                                    <td class="p-2">Requiere aislamiento adicional</td>
+                                </tr>
+                                <tr class="border-b border-desert-100">
+                                    <td class="p-2">Ladrillo de barro</td>
+                                    <td class="p-2">Tradicional, buena regulación térmica</td>
+                                    <td class="p-2">Requiere mantenimiento, menos resistente</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-2">Aislamiento XPS</td>
+                                    <td class="p-2">Alto R-Value, resistente a humedad</td>
+                                    <td class="p-2">Costo inicial elevado</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="faq-item bg-white rounded-xl shadow-lg border border-desert-100 overflow-hidden" data-category="materiales">
+                <button class="faq-question w-full p-4 text-left flex justify-between items-center hover:bg-desert-50 transition" onclick="toggleFAQ(this)">
+                    <span class="font-medium text-desert-900">¿Qué tipo de techo es mejor para el calor?</span>
+                    <i class="fa-solid fa-chevron-down faq-icon text-desert-600"></i>
+                </button>
+                <div class="faq-content px-4 pb-4">
+                    <p class="text-slate-600">
+                        Para clima desértico, el techo es uno de los elementos más importantes para el confort térmico:
+                    </p>
+                    <ul class="list-disc list-inside text-slate-600 mt-3 space-y-2">
+                        <li><strong>Techo plano con aislamiento:</strong> Ideal para diseño moderno, requiere impermeabilización y aislamiento térmico (R-10 mínimo)</li>
+                        <li><strong>Techo a dos aguas:</strong> Permite mejor ventilación en el ático, reduce acumulación de calor</li>
+                        <li><strong>Techo verde:</strong> Excelente aislamiento natural, pero requiere mantenimiento</li>
+                        <li><strong>Techo reflectante:</strong> Pintura blanca o membranas reflectantes para reducir absorción de calor</li>
+                    </ul>
+                    <p class="text-slate-600 mt-3">
+                        <strong>Recomendación:</strong> Usa colores claros en el techo para reflejar el calor y siempre incluye aislamiento térmico.
+                    </p>
+                </div>
+            </div>
+            
+            <div class="faq-item bg-white rounded-xl shadow-lg border border-desert-100 overflow-hidden" data-category="materiales">
+                <button class="faq-question w-full p-4 text-left flex justify-between items-center hover:bg-desert-50 transition" onclick="toggleFAQ(this)">
+                    <span class="font-medium text-desert-900">¿Qué tipo de ventanas son mejores para el desierto?</span>
+                    <i class="fa-solid fa-chevron-down faq-icon text-desert-600"></i>
+                </button>
+                <div class="faq-content px-4 pb-4">
+                    <p class="text-slate-600">
+                        Las ventanas son puntos críticos de ganancia de calor. Para clima desértico:
+                    </p>
+                    <ul class="list-disc list-inside text-slate-600 mt-3 space-y-2">
+                        <li><strong>Vidrio bajo emisivo (Low-E):</strong> Reduce transferencia de calor, ideal para Mexicali</li>
+                        <li><strong>Doble vidrio:</strong> Mejor aislamiento, pero más caro</li>
+                        <li><strong>Protección solar:</strong> Persianas, cortinas o celosías en el exterior</li>
+                        <li><strong>Orientación:</strong> Evitar ventanas grandes en paredes oeste</li>
+                        <li><strong>Marcos:</strong> Vinilo o aluminio con ruptura de puente térmico</li>
+                    </ul>
+                    <p class="text-slate-600 mt-3">
+                        <strong>Recomendación:</strong> Usa ventanas con factor solar ≤ 0.4 y U-Value ≤ 1.2.
+                    </p>
+                </div>
+            </div>
+            
+            <!-- Diseño -->
+            <div class="faq-item bg-white rounded-xl shadow-lg border border-desert-100 overflow-hidden" data-category="diseño">
+                <button class="faq-question w-full p-4 text-left flex justify-between items-center hover:bg-desert-50 transition" onclick="toggleFAQ(this)">
+                    <span class="font-medium text-desert-900">¿Cuál es la mejor orientación para una casa en Mexicali?</span>
+                    <i class="fa-solid fa-chevron-down faq-icon text-desert-600"></i>
+                </button>
+                <div class="faq-content px-4 pb-4">
+                    <p class="text-slate-600">
+                        La orientación óptima para una casa en Mexicali es <strong>norte-sur</strong>. Esto permite:
+                    </p>
+                    <ul class="list-disc list-inside text-slate-600 mt-3 space-y-2">
+                        <li><strong>Ventilación cruzada:</strong> Las brisas predominantes en Mexicali vienen del noroeste, una orientación norte-sur permite mejor flujo de aire</li>
+                        <li><strong>Control solar:</strong> Las paredes este y oeste reciben el sol de la mañana y tarde (menos intenso), mientras que las paredes norte y sur reciben luz más uniforme</li>
+                        <li><strong>Sombras:</strong> Permite crear áreas de sombra naturales en el jardín</li>
+                    </ul>
+                    <p class="text-slate-600 mt-3">
+                        <strong>Recomendación:</strong> Coloca las áreas de estar (sala, comedor) en el lado norte y las áreas de servicio (cocina, lavandería) en el lado sur.
+                    </p>
+                </div>
+            </div>
+            
+            <div class="faq-item bg-white rounded-xl shadow-lg border border-desert-100 overflow-hidden" data-category="diseño">
+                <button class="faq-question w-full p-4 text-left flex justify-between items-center hover:bg-desert-50 transition" onclick="toggleFAQ(this)">
+                    <span class="font-medium text-desert-900">¿Cómo puedo hacer mi casa más fresca sin aire acondicionado?</span>
+                    <i class="fa-solid fa-chevron-down faq-icon text-desert-600"></i>
+                </button>
+                <div class="faq-content px-4 pb-4">
+                    <p class="text-slate-600">
+                        Existen varias estrategias de diseño pasivo para mantener tu casa fresca:
+                    </p>
+                    <ul class="list-disc list-inside text-slate-600 mt-3 space-y-2">
+                        <li><strong>Aislamiento:</strong> Usa materiales con alto R-Value en paredes y techos</li>
+                        <li><strong>Ventilación natural:</strong> Diseña con ventanas opuestas para flujo de aire cruzado</li>
+                        <li><strong>Sombras:</strong> Usa aleros, pérgolas y árboles para bloquear el sol directo</li>
+                        <li><strong>Inercia térmica:</strong> Materiales pesados (como block de concreto) absorben calor durante el día y lo liberan de noche</li>
+                        <li><strong>Jardín interior:</strong> Un patio con plantas y agua puede reducir la temperatura hasta 5°C</li>
+                        <li><strong>Colores claros:</strong> Los colores claros en exteriores reflejan el calor</li>
+                        <li><strong>Techos altos:</strong> Permiten que el aire caliente suba y salga por ventilación</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="faq-item bg-white rounded-xl shadow-lg border border-desert-100 overflow-hidden" data-category="diseño">
+                <button class="faq-question w-full p-4 text-left flex justify-between items-center hover:bg-desert-50 transition" onclick="toggleFAQ(this)">
+                    <span class="font-medium text-desert-900">¿Qué tamaño de casa puedo construir en un terreno de 200m²?</span>
+                    <i class="fa-solid fa-chevron-down faq-icon text-desert-600"></i>
+                </button>
+                <div class="faq-content px-4 pb-4">
+                    <p class="text-slate-600">
+                        El tamaño de construcción depende de la zonificación y los retiros requeridos. Para un terreno 
+                        de 200m² (por ejemplo, 10m x 20m):
+                    </p>
+                    <div class="bg-desert-50/50 rounded-xl p-4 mt-3">
+                        <h4 class="font-bold text-desert-800 mb-2">Ejemplo para zona R1 (Residencial de Baja Densidad):</h4>
+                        <ul class="list-disc list-inside text-slate-600 space-y-1">
+                            <li><strong>Retiros:</strong> 5m frente, 3m laterales, 5m fondo</li>
+                            <li><strong>Área construible:</strong> (10m - 5m - 5m) x (20m - 3m - 3m) = 5m x 14m = 70m²</li>
+                            <li><strong>COS (40%):</strong> 200m² x 0.4 = 80m² máximo</li>
+                            <li><strong>CUS (60%):</strong> 200m² x 0.6 = 120m² máximo</li>
+                        </ul>
+                        <p class="text-slate-600 mt-2">
+                            <strong>Resultado:</strong> Podrías construir hasta <strong>80m²</strong> en planta baja o <strong>120m²</strong> en dos plantas.
+                        </p>
+                    </div>
+                    <p class="text-slate-600 mt-3">
+                        <strong>Nota:</strong> Estos cálculos son aproximados. Consulta con un arquitecto para un cálculo exacto 
+                        según tu terreno específico.
+                    </p>
+                </div>
+            </div>
+            
+            <!-- Clima Desértico -->
+            <div class="faq-item bg-white rounded-xl shadow-lg border border-desert-100 overflow-hidden" data-category="clima">
+                <button class="faq-question w-full p-4 text-left flex justify-between items-center hover:bg-desert-50 transition" onclick="toggleFAQ(this)">
+                    <span class="font-medium text-desert-900">¿Cuál es la temperatura promedio en Mexicali?</span>
+                    <i class="fa-solid fa-chevron-down faq-icon text-desert-600"></i>
+                </button>
+                <div class="faq-content px-4 pb-4">
+                    <p class="text-slate-600">
+                        Mexicali tiene un clima desértico extremo con temperaturas muy altas en verano:
+                    </p>
+                    <div class="overflow-x-auto mt-3">
+                        <table class="w-full text-sm">
+                            <thead class="bg-desert-100">
+                                <tr>
+                                    <th class="p-2 text-left">Estación</th>
+                                    <th class="p-2 text-left">Temp. Máx. (°C)</th>
+                                    <th class="p-2 text-left">Temp. Mín. (°C)</th>
+                                    <th class="p-2 text-left">Temp. Prom. (°C)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="border-b border-desert-100">
+                                    <td class="p-2">Primavera</td>
+                                    <td class="p-2">30-35</td>
+                                    <td class="p-2">10-15</td>
+                                    <td class="p-2">22-25</td>
+                                </tr>
+                                <tr class="border-b border-desert-100">
+                                    <td class="p-2">Verano</td>
+                                    <td class="p-2">40-48</td>
+                                    <td class="p-2">20-25</td>
+                                    <td class="p-2">32-35</td>
+                                </tr>
+                                <tr class="border-b border-desert-100">
+                                    <td class="p-2">Otoño</td>
+                                    <td class="p-2">30-35</td>
+                                    <td class="p-2">15-20</td>
+                                    <td class="p-2">23-26</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-2">Invierno</td>
+                                    <td class="p-2">20-25</td>
+                                    <td class="p-2">2-8</td>
+                                    <td class="p-2">12-15</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <p class="text-slate-600 mt-3">
+                        <strong>Récord:</strong> La temperatura más alta registrada en Mexicali es de 52°C (125.6°F).
+                    </p>
+                </div>
+            </div>
+            
+            <div class="faq-item bg-white rounded-xl shadow-lg border border-desert-100 overflow-hidden" data-category="clima">
+                <button class="faq-question w-full p-4 text-left flex justify-between items-center hover:bg-desert-50 transition" onclick="toggleFAQ(this)">
+                    <span class="font-medium text-desert-900">¿Qué plantas son mejores para jardines en Mexicali?</span>
+                    <i class="fa-solid fa-chevron-down faq-icon text-desert-600"></i>
+                </button>
+                <div class="faq-content px-4 pb-4">
+                    <p class="text-slate-600">
+                        Para jardines en Mexicali, se recomiendan plantas nativas resistentes a la sequía:
+                    </p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-3">
+                        <div class="bg-desert-50/50 rounded-xl p-4">
+                            <h4 class="font-bold text-desert-800 mb-2">Árboles:</h4>
+                            <ul class="list-disc list-inside text-slate-600 space-y-1">
+                                <li><strong>Palo Verde:</strong> Sombra ligera, fijación de nitrógeno</li>
+                                <li><strong>Desert Willow:</strong> Flores fragantes, sombra</li>
+                                <li><strong>Ocotillo:</strong> Flores rojas, bajo mantenimiento</li>
+                                <li><strong>Mesquite:</strong> Resistente, buena sombra</li>
+                            </ul>
+                        </div>
+                        <div class="bg-desert-50/50 rounded-xl p-4">
+                            <h4 class="font-bold text-desert-800 mb-2">Arbustos y Plantas:</h4>
+                            <ul class="list-disc list-inside text-slate-600 space-y-1">
+                                <li><strong>Agave:</strong> Variedades de agave, muy resistentes</li>
+                                <li><strong>Cholla:</strong> Cactus columnar, bajo mantenimiento</li>
+                                <li><strong>Yuca:</strong> Hojas decorativas, resistente</li>
+                                <li><strong>Lantana:</strong> Flores coloridas, atrae mariposas</li>
+                                <li><strong>Bougainvillea:</strong> Flores vibrantes, trepadora</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <p class="text-slate-600 mt-3">
+                        <strong>Recomendación:</strong> Usa riego por goteo y agrupa plantas con necesidades similares de agua.
+                    </p>
+                </div>
+            </div>
+            
+            <div class="faq-item bg-white rounded-xl shadow-lg border border-desert-100 overflow-hidden" data-category="clima">
+                <button class="faq-question w-full p-4 text-left flex justify-between items-center hover:bg-desert-50 transition" onclick="toggleFAQ(this)">
+                    <span class="font-medium text-desert-900">¿Cómo afecta el clima de Mexicali a la construcción?</span>
+                    <i class="fa-solid fa-chevron-down faq-icon text-desert-600"></i>
+                </button>
+                <div class="faq-content px-4 pb-4">
+                    <p class="text-slate-600">
+                        El clima extremo de Mexicali presenta varios desafíos para la construcción:
+                    </p>
+                    <ul class="list-disc list-inside text-slate-600 mt-3 space-y-2">
+                        <li><strong>Expansión y contracción del suelo:</strong> Los suelos arcillosos se expanden con la humedad y se contraen con el calor, causando grietas. Solución: cimentación profunda y juntas de expansión.</li>
+                        <li><strong>Alta temperatura:</strong> Puede causar agrietamiento en concretos y morteros si no se curan adecuadamente. Solución: curado con agua y protección solar.</li>
+                        <li><strong>Radiación UV:</strong> Degrada materiales plásticos y pinturas. Solución: usar materiales resistentes a UV y pinturas de alta calidad.</li>
+                        <li><strong>Vientos fuertes:</strong> Pueden dañar estructuras ligeras. Solución: diseño estructural adecuado y anclajes seguros.</li>
+                        <li><strong>Baja humedad:</strong> Causa sequedad en maderas y materiales porosos. Solución: selladores y tratamientos protectores.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <!-- Footer -->
+    <footer class="bg-desert-900 text-white py-8 px-4 mt-12">
+        <div class="max-w-6xl mx-auto text-center">
+            <p class="text-desert-300 text-sm">
+                ¿No encontraste la respuesta que buscabas? 
+                <a href="../../index.html#ai-lab" class="text-desert-500 hover:text-white transition underline">Consulta a nuestro Asistente de IA</a> 
+                para obtener respuestas personalizadas.
+            </p>
+        </div>
+    </footer>
+    
+    <script>
+        function toggleFAQ(button) {
+            const content = button.nextElementSibling;
+            const icon = button.querySelector('.faq-icon');
+            
+            content.classList.toggle('open');
+            icon.classList.toggle('open');
+        }
+        
+        function filterFAQ(category) {
+            const faqItems = document.querySelectorAll('.faq-item');
+            
+            faqItems.forEach(item => {
+                const itemCategory = item.dataset.category;
+                
+                if (category === 'todos' || itemCategory === category) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+            
+            // Actualizar botones de categoría
+            document.querySelectorAll('button[onclick^="filterFAQ"]').forEach(btn => {
+                btn.classList.remove('bg-desert-800', 'text-white');
+                btn.classList.add('bg-desert-200', 'text-desert-800');
+                
+                if (btn.getAttribute('onclick').includes(`'${category}'`)) {
+                    btn.classList.remove('bg-desert-200', 'text-desert-800');
+                    btn.classList.add('bg-desert-800', 'text-white');
+                }
+            });
+        }
+        
+        // Búsqueda
+        document.getElementById('faq-search').addEventListener('input', function(e) {
+            const searchTerm = e.target.value.toLowerCase();
+            const faqItems = document.querySelectorAll('.faq-item');
+            
+            faqItems.forEach(item => {
+                const question = item.querySelector('.faq-question span').textContent.toLowerCase();
+                const content = item.querySelector('.faq-content').textContent.toLowerCase();
+                
+                if (question.includes(searchTerm) || content.includes(searchTerm)) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        });
+        
+        // Mostrar todos al cargar
+        filterFAQ('todos');
+    </script>
+</body>
+</html>
