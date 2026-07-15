@@ -17,7 +17,7 @@
 const AI_CONFIG = {
     // Groq API - LLM rápido y económico
     groq: {
-        apiKey: 'gsk_XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX', // Reemplazar con tu key
+        apiKey: 'gsk_xai-u4pH5tAmt8O1EtcRRSnUqA7ve6PE6MecMMi57jbZLID73PXYIwSdPQOYoF362TxaQJO57IBpYKFkr162', // Reemplazar con tu key
         baseUrl: 'https://api.groq.com/v1',
         model: 'llama-3.1-70b-versatile', // Modelo recomendado para arquitectura
         // Alternativas: 'mixtral-8x7b-32768', 'gemma2-9b-it'
