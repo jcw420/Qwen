@@ -17,9 +17,10 @@
 const AI_CONFIG = {
     // Groq API - LLM rápido y económico
     groq: {
-        apiKey: 'gsk_xai-u4pH5tAmt8O1EtcRRSnUqA7ve6PE6MecMMi57jbZLID73PXYIwSdPQOYoF362TxaQJO57IBpYKFkr162', // Reemplazar con tu key
-        baseUrl: 'https://api.groq.com/v1',
-        model: 'llama-3.1-70b-versatile', // Modelo recomendado para arquitectura
+        apiKey: 'xai-u4pH5tAmt8O1EtcRRSnUqA7ve6PE6MecMMi57jbZLID73PXYIwSdPQOYoF362TxaQJO57IBpYKFkr162', // Reemplazar con tu key
+        baseUrl: 'https://api.x.ai/v1',
+        model: 'xai.responses("grok-4.5")'
+        prompt: "Fix this function and explain the bug: function median(a){a.sort();return a[a.length/2]}", // Modelo recomendado para arquitectura
         // Alternativas: 'mixtral-8x7b-32768', 'gemma2-9b-it'
     },
     
@@ -73,7 +74,7 @@ const AIState = {
 async function callGroq(prompt, systemMessage = '', temperature = 0.7, maxTokens = 2048) {
     const config = AI_CONFIG.groq;
     
-    if (!config.apiKey || config.apiKey === 'gsk_XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX') {
+    if (!config.apiKey || config.apiKey === 'xai-u4pH5tAmt8O1EtcRRSnUqA7ve6PE6MecMMi57jbZLID73PXYIwSdPQOYoF362TxaQJO57IBpYKFkr162') {
         showNotification('Configura tu API Key de Groq en ai-capabilities.js', 'error');
         return null;
     }
